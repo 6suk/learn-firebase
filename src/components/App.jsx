@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppRouter from 'components/Router';
 import { useEffect, useState } from 'react';
 import auth, { onAuthStateChanged } from 'fbase';
@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setLogin());
+        dispatch(setLogin(user));
       } else {
         dispatch(setLogout());
       }

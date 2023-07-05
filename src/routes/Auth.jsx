@@ -56,8 +56,7 @@ const Auth = () => {
         break;
     }
 
-    const result = await signInWithPopup(auth, provide);
-    console.log(result);
+    await signInWithPopup(auth, provide);
   };
 
   return (
