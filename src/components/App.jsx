@@ -1,9 +1,8 @@
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AppRouter from 'components/Router';
-import store from 'slice/store';
 import { useEffect, useState } from 'react';
 import auth, { onAuthStateChanged } from 'fbase';
-import { setLogin } from 'slice/user';
+import { setLogin, setLogout } from 'slice/user';
 
 function App() {
   const [init, setInit] = useState(false);
@@ -11,8 +10,11 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      const TYPE = user ? 'LOGIN' : 'LOGOUT';
-      dispatch(setLogin({ type: TYPE }));
+      if (user) {
+        dispatch(setLogin());
+      } else {
+        dispatch(setLogout());
+      }
       setInit(true);
     });
   }, []);

@@ -1,26 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import auth from 'fbase';
 
 const user = createSlice({
   name: 'user',
   initialState: {
-    isLogin: auth.currentUser,
+    isLogin: false,
   },
   reducers: {
-    setLogin: (state, action) => {
-      switch (action.payload.type) {
-        case 'LOGIN':
-          state.isLogin = true;
-          break;
-        case 'LOGOUT':
-          state.isLogin = false;
-          break;
-        default:
-          break;
-      }
+    setLogin: (state) => {
+      state.isLogin = true;
+    },
+    setLogout: (state) => {
+      state.isLogin = false;
     },
   },
 });
 
 export default user;
-export const { setLogin } = user.actions;
+export const { setLogin, setLogout } = user.actions;
