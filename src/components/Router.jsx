@@ -20,6 +20,7 @@ const AppRouter = () => {
         ) : (
           <Route path="/" element={<Auth />} />
         )}
+        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
