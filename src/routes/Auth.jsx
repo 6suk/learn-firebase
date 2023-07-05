@@ -1,11 +1,11 @@
-import { authService } from 'fbase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
+import auth, { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fbase';
 
 const Auth = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState();
 
   const onChange = (e) => {
     const {
@@ -27,18 +27,19 @@ const Auth = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      let data;
       if (newAccount) {
-        data = await createUserWithEmailAndPassword(authService, email, password);
+        // 회원가입
+        await createUserWithEmailAndPassword(auth, email, password);
       } else {
-        data = await signInWithEmailAndPassword(authService, email, password);
+        // 로그인
+        await signInWithEmailAndPassword(auth, email, password);
       }
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
+  const toggleAccount = () => setNewAccount((prev) => !prev);
   return (
     <div>
       <form action="" onSubmit={onSubmit}>
@@ -46,6 +47,8 @@ const Auth = () => {
         <input type="password" placeholder="password" name="password" required onChange={onChange} />
         <input type="submit" value={newAccount ? 'Join' : 'Login'} />
       </form>
+      {error}
+      <button onClick={toggleAccount}>{newAccount ? 'Change login' : 'Change Join'}</button>
       <div>
         <button>Google Login</button>
         <button>Github Login</button>
