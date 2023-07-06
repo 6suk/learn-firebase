@@ -4,7 +4,7 @@ const postList = createSlice({
   name: 'postList',
   initialState: {
     /**
-     * {id(key), date, post, uid, imgUrl}
+     * {id(key), date, post, uid, imageUrl}
      */
     data: [],
   },

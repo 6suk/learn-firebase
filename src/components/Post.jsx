@@ -2,6 +2,7 @@ import { db, storage } from 'fbase';
 import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useState } from 'react';
+import { isEmpty } from 'Util/util';
 
 const Post = ({ post, isOwner }) => {
   const COLLECTION_NAME = 'nweets';
@@ -13,6 +14,7 @@ const Post = ({ post, isOwner }) => {
   const onDelClick = async () => {
     const ok = window.confirm('정말 삭제 할거임?');
     if (ok) {
+      onDelImgClick();
       await deleteDoc(doc(db, COLLECTION_NAME, post.id));
     }
   };
@@ -34,12 +36,15 @@ const Post = ({ post, isOwner }) => {
     setIsEdit(false);
   };
 
+  // 이미지 삭제
   const onDelImgClick = async () => {
-    const path = ref(storage, post.imageUrl).fullPath;
-    await deleteObject(ref(storage, path));
-    await updateDoc(doc(db, COLLECTION_NAME, post.id), {
-      imageUrl: '',
-    });
+    if (!isEmpty(post.imageUrl)) {
+      const path = ref(storage, post.imageUrl).fullPath;
+      await deleteObject(ref(storage, path));
+      await updateDoc(doc(db, COLLECTION_NAME, post.id), {
+        imageUrl: '',
+      });
+    }
   };
 
   return (
