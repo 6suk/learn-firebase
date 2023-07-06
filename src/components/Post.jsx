@@ -35,6 +35,7 @@ const Post = ({ post, isOwner }) => {
 
   return (
     <li>
+      {post.imageUrl && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
       {isEdit && isOwner ? (
         <>
           <form onSubmit={onSubmit}>

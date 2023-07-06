@@ -1,9 +1,11 @@
 import { collection, addDoc, getDoc, getDocs, onSnapshot, query, where, orderBy } from 'firebase/firestore';
-import { db } from 'fbase';
+import { db, storage } from 'fbase';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
 import Post from 'components/Post';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { v4 as uuid } from 'uuid';
 
 const Home = () => {
   const COLLECTION_NAME = 'nweets';
@@ -47,14 +49,28 @@ const Home = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      let imageUrl = '';
+
+      // 이미지 storage 저장 및 Url 가져오기
+      if (image !== '') {
+        const fileRef = ref(storage, `${user.uid}/${uuid()}`);
+        const uploadResult = await uploadString(fileRef, image, 'data_url');
+        imageUrl = await getDownloadURL(uploadResult.ref);
+      }
+
+      // DB저장
       await addDoc(collection(db, COLLECTION_NAME), {
         date: Date.now(),
         post,
         uid: user.uid,
+        imageUrl,
       });
+
+      // 초기화
       setPost('');
+      setImage('');
     } catch (error) {
-      console.log(error.messege);
+      console.log(error);
     }
   };
 
@@ -71,7 +87,7 @@ const Home = () => {
 
     reader.addEventListener('loadend', (e) => {
       // event 객체로 받을 수도 있음
-      console.log(e);
+      // console.log(e);
 
       // FileReader.result로도 받을 수 있음
       setImage(reader.result);
