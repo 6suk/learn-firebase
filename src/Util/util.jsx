@@ -4,5 +4,3 @@ export const isEmpty = (obj) => {
   }
   return false;
 };
-
-export const COLLECTION_NAME = 'nweets';

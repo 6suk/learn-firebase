@@ -1,12 +1,11 @@
 import { collection, addDoc, getDoc, getDocs, onSnapshot, query, where, orderBy } from 'firebase/firestore';
-import { db, storage } from 'fbase';
+import { POST_COLLECTION, db, storage } from 'fbase';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
 import Post from 'components/Post';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
-import { COLLECTION_NAME } from 'Util/util';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,7 +19,7 @@ const Home = () => {
   // Read (실시간 가져오기)
   useEffect(() => {
     // 등록된 시간별 정렬 쿼리
-    const q = query(collection(db, COLLECTION_NAME), orderBy('date', 'desc'));
+    const q = query(POST_COLLECTION, orderBy('date', 'desc'));
 
     onSnapshot(q, (querySnapshot) => {
       const arr = querySnapshot.docs.map((doc) => ({
@@ -33,7 +32,7 @@ const Home = () => {
 
   // Read (1번 가져오기)
   const getPostList = async () => {
-    const docs = await getDocs(collection(db, COLLECTION_NAME));
+    const docs = await getDocs(POST_COLLECTION);
     const arr = [];
     docs.forEach((doc) => {
       const postObj = {
@@ -59,7 +58,7 @@ const Home = () => {
       }
 
       // DB저장
-      await addDoc(collection(db, COLLECTION_NAME), {
+      await addDoc(POST_COLLECTION, {
         date: Date.now(),
         post,
         uid: user.uid,

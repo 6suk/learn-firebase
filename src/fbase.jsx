@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { collection, doc, getFirestore } from 'firebase/firestore';
 import { getStorage, ref } from 'firebase/storage';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
@@ -23,5 +23,12 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+// DataBase : Post
+const COLLECTION_NAME = 'nweets';
+export const POST_COLLECTION = collection(db, COLLECTION_NAME);
+export const POST_DOC = (id) => {
+  return doc(db, COLLECTION_NAME, id);
+};
 
 export { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword };

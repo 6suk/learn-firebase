@@ -1,8 +1,7 @@
-import { db, storage } from 'fbase';
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { POST_DOC, storage } from 'fbase';
+import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useState } from 'react';
-import { COLLECTION_NAME, isEmpty } from 'Util/util';
 
 const Post = ({ post, isOwner }) => {
   const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
@@ -15,7 +14,7 @@ const Post = ({ post, isOwner }) => {
     const ok = window.confirm('정말 삭제 할거임?');
     if (ok) {
       await delImgInStorage();
-      await deleteDoc(doc(db, COLLECTION_NAME, post.id));
+      await deleteDoc(POST_DOC(post.id));
     }
   };
 
@@ -36,7 +35,7 @@ const Post = ({ post, isOwner }) => {
       delImgInStorage();
     }
 
-    await updateDoc(doc(db, COLLECTION_NAME, post.id), {
+    await updateDoc(POST_DOC(post.id), {
       post: editPost,
       imageUrl: delImage ? '' : post.imageUrl,
     });
