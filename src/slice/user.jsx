@@ -3,6 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const user = createSlice({
   name: 'user',
   initialState: {
+    /**
+     * {uid(key), displayName, photoURL, email, updateProfile(args)}
+     */
     user: null,
     /**
      * {id(key), date, post, uid, imageUrl}
