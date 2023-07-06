@@ -14,7 +14,7 @@ const Post = ({ post, isOwner }) => {
   const onDelClick = async () => {
     const ok = window.confirm('정말 삭제 할거임?');
     if (ok) {
-      onDelImgClick();
+      await onDelImgClick();
       await deleteDoc(doc(db, COLLECTION_NAME, post.id));
     }
   };
@@ -39,8 +39,8 @@ const Post = ({ post, isOwner }) => {
   // 이미지 삭제
   const onDelImgClick = async () => {
     if (!isEmpty(post.imageUrl)) {
-      const path = ref(storage, post.imageUrl).fullPath;
-      await deleteObject(ref(storage, path));
+      const curImgRef = ref(storage, post.imageUrl);
+      await deleteObject(curImgRef);
       await updateDoc(doc(db, COLLECTION_NAME, post.id), {
         imageUrl: '',
       });
