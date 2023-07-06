@@ -1,4 +1,4 @@
-import { collection, addDoc, getDoc, getDocs, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, getDoc, getDocs, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 import { db } from 'fbase';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,10 @@ const Home = () => {
   const [post, setPost] = useState('');
 
   useEffect(() => {
-    onSnapshot(collection(db, COLLECTION_NAME), (querySnapshot) => {
+    // 등록된 시간별 정렬 쿼리
+    const q = query(collection(db, COLLECTION_NAME), orderBy('date', 'desc'));
+
+    onSnapshot(q, (querySnapshot) => {
       const arr = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
