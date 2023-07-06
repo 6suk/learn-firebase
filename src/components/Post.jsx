@@ -41,6 +41,8 @@ const Post = ({ post, isOwner }) => {
     if (!isEmpty(post.imageUrl)) {
       const curImgRef = ref(storage, post.imageUrl);
       await deleteObject(curImgRef);
+
+      // 사진만 삭제하는 경우
       await updateDoc(doc(db, COLLECTION_NAME, post.id), {
         imageUrl: '',
       });
