@@ -6,7 +6,8 @@ import Nav from 'components/Nav';
 import Profile from 'routes/Profile';
 
 const AppRouter = () => {
-  const { isLogin } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
+  const isLogin = Boolean(user);
 
   return (
     <BrowserRouter>

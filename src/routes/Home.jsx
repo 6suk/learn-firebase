@@ -10,7 +10,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const {
     postList: { data: postList },
-    user: { isLogin, user },
+    user: { user },
   } = useSelector((state) => state);
   const [post, setPost] = useState('');
 

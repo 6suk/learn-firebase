@@ -35,7 +35,7 @@ const Post = ({ post, isOwner }) => {
 
   return (
     <li>
-      {isEdit ? (
+      {isEdit && isOwner ? (
         <>
           <form onSubmit={onSubmit}>
             <input type="text" value={editPost} onChange={onChange} required />
