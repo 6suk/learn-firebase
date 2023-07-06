@@ -3,6 +3,7 @@ import { db } from 'fbase';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
+import Post from 'components/Post';
 
 const Home = () => {
   const COLLECTION_NAME = 'nweets';
@@ -13,6 +14,7 @@ const Home = () => {
   } = useSelector((state) => state);
   const [post, setPost] = useState('');
 
+  // Read (실시간 가져오기)
   useEffect(() => {
     // 등록된 시간별 정렬 쿼리
     const q = query(collection(db, COLLECTION_NAME), orderBy('date', 'desc'));
@@ -69,10 +71,7 @@ const Home = () => {
 
       <ul>
         {postList.map((post) => (
-          <li key={post.id}>
-            <h4>{post.post}</h4>
-            <p>{post.date}</p>
-          </li>
+          <Post post={post} key={post.id} isOwner={user.uid === post.uid} />
         ))}
       </ul>
     </>
