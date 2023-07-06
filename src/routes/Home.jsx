@@ -13,6 +13,7 @@ const Home = () => {
     user: { user },
   } = useSelector((state) => state);
   const [post, setPost] = useState('');
+  const [image, setImage] = useState('');
 
   // Read (실시간 가져오기)
   useEffect(() => {
@@ -62,10 +63,36 @@ const Home = () => {
     setPost(value);
   };
 
+  const onFileChange = (e) => {
+    const { files } = e.target;
+    const file = files[0];
+
+    const reader = new FileReader();
+
+    reader.addEventListener('loadend', (e) => {
+      // event 객체로 받을 수도 있음
+      console.log(e);
+
+      // FileReader.result로도 받을 수 있음
+      setImage(reader.result);
+    });
+
+    reader.readAsDataURL(file);
+  };
+
+  const onClearImgClick = () => setImage('');
+
   return (
     <>
       <form action="" onSubmit={onSubmit}>
-        <input type="text" name="" id="" placeholder="내용 작성" maxLength={120} onChange={onChange} value={post} />
+        {image && (
+          <div>
+            <img src={image} width="80px" height="80px" alt="미리보기" />
+            <button onClick={onClearImgClick}>이미지 삭제</button>
+          </div>
+        )}
+        <input type="file" accept="image/*" onChange={onFileChange} />
+        <input type="text" placeholder="내용 작성" maxLength={120} onChange={onChange} value={post} />
         <input type="submit" value="Nweet" />
       </form>
 
