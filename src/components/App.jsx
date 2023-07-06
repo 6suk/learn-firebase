@@ -1,25 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
 import AppRouter from 'components/Router';
-import { useEffect, useState } from 'react';
 import { auth, onAuthStateChanged } from 'fbase';
-import { setLogin, setLogout } from 'slice/user';
 import { updateProfile } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLogin, setLogout } from 'slice/user';
 
 function App() {
   const [init, setInit] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userObj = setUserObj(user);
-        dispatch(setLogin(userObj));
-      } else {
-        dispatch(setLogout());
-      }
-      setInit(true);
-    });
-  }, []);
 
   const refreshUser = () => {
     const user = auth.currentUser;
@@ -27,7 +15,7 @@ function App() {
     dispatch(setLogin(userObj));
   };
 
-  // 필요한 정보만 가져오기
+  // 유저 - 필요한 정보만 가져오기
   const setUserObj = (user) => {
     const userObj = {
       uid: user.uid,
@@ -43,9 +31,20 @@ function App() {
        */
       updateProfile: (args) => updateProfile(user, args),
     };
-
     return userObj;
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userObj = setUserObj(user);
+        dispatch(setLogin(userObj));
+      } else {
+        dispatch(setLogout());
+      }
+      setInit(true);
+    });
+  }, []);
 
   return <>{init && <AppRouter refreshUser={refreshUser} />}</>;
 }
