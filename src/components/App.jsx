@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AppRouter from 'components/Router';
 import { useEffect, useState } from 'react';
-import auth, { onAuthStateChanged } from 'fbase';
+import { auth, onAuthStateChanged } from 'fbase';
 import { setLogin, setLogout } from 'slice/user';
 
 function App() {
