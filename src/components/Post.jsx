@@ -1,5 +1,5 @@
 import { db, storage } from 'fbase';
-import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useState } from 'react';
 import { isEmpty } from 'Util/util';
@@ -10,17 +10,19 @@ const Post = ({ post, isOwner }) => {
   const date = new Date(post.date + TIME_ZONE).toISOString().split('T')[0];
   const [isEdit, setIsEdit] = useState(false);
   const [editPost, setEditPost] = useState(post.post);
+  const [delImage, setDelImage] = useState(false);
 
   const onDelClick = async () => {
     const ok = window.confirm('정말 삭제 할거임?');
     if (ok) {
-      await onDelImgClick();
+      await delImgInStorage();
       await deleteDoc(doc(db, COLLECTION_NAME, post.id));
     }
   };
 
   const toggleEdit = (e) => {
     setIsEdit(!isEdit);
+    setDelImage(false);
   };
 
   const onChange = (e) => {
@@ -30,31 +32,34 @@ const Post = ({ post, isOwner }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (delImage) {
+      delImgInStorage();
+    }
+
     await updateDoc(doc(db, COLLECTION_NAME, post.id), {
       post: editPost,
+      imageUrl: delImage ? '' : post.imageUrl,
     });
     setIsEdit(false);
+    setDelImage(false);
   };
 
-  // 이미지 삭제
-  const onDelImgClick = async () => {
-    if (!isEmpty(post.imageUrl)) {
-      const curImgRef = ref(storage, post.imageUrl);
-      await deleteObject(curImgRef);
+  const onDelImgClick = () => {
+    setDelImage(true);
+  };
 
-      // 사진만 삭제하는 경우
-      await updateDoc(doc(db, COLLECTION_NAME, post.id), {
-        imageUrl: '',
-      });
-    }
+  const delImgInStorage = async () => {
+    const curImgRef = ref(storage, post.imageUrl);
+    await deleteObject(curImgRef);
   };
 
   return (
     <li>
       {post.imageUrl && (
         <div>
-          <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />
-          <button onClick={onDelImgClick}>이미지 삭제</button>
+          {!delImage && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
+          {isEdit && isOwner && !delImage && <button onClick={onDelImgClick}>이미지 삭제</button>}
         </div>
       )}
       {isEdit && isOwner ? (
