@@ -26,7 +26,14 @@ export const storage = getStorage(app);
 
 // DataBase : Post
 const COLLECTION_NAME = 'nweets';
+/**
+ * @returns — The CollectionReference instance.
+ */
 export const POST_COLLECTION = collection(db, COLLECTION_NAME);
+/**
+ * @param post_id
+ * @returns — The DocumentReference instance.
+ */
 export const POST_DOC = (id) => {
   return doc(db, COLLECTION_NAME, id);
 };
