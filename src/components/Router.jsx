@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Nav from 'components/Nav';
 import Profile from 'routes/Profile';
 
-const AppRouter = () => {
+const AppRouter = ({ refreshUser }) => {
   const { user } = useSelector((state) => state.user);
   const isLogin = Boolean(user);
 
@@ -16,7 +16,7 @@ const AppRouter = () => {
         {isLogin ? (
           <>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
           </>
         ) : (
           <Route path="/" element={<Auth />} />
