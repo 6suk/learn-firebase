@@ -1,5 +1,6 @@
-import { db } from 'fbase';
+import { db, storage } from 'fbase';
 import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 import { useState } from 'react';
 
 const Post = ({ post, isOwner }) => {
@@ -33,9 +34,22 @@ const Post = ({ post, isOwner }) => {
     setIsEdit(false);
   };
 
+  const onDelImgClick = async () => {
+    const path = ref(storage, post.imageUrl).fullPath;
+    await deleteObject(ref(storage, path));
+    await updateDoc(doc(db, COLLECTION_NAME, post.id), {
+      imageUrl: '',
+    });
+  };
+
   return (
     <li>
-      {post.imageUrl && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
+      {post.imageUrl && (
+        <div>
+          <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />
+          <button onClick={onDelImgClick}>이미지 삭제</button>
+        </div>
+      )}
       {isEdit && isOwner ? (
         <>
           <form onSubmit={onSubmit}>
