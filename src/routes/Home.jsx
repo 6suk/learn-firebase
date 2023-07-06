@@ -1,4 +1,4 @@
-import { collection, addDoc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDoc, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from 'fbase';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,14 +7,23 @@ import { setPostList } from 'slice/post';
 const Home = () => {
   const COLLECTION_NAME = 'nweets';
   const dispatch = useDispatch();
-  const { data: postList } = useSelector((state) => state.postList);
+  const {
+    postList: { data: postList },
+    user: { isLogin, user },
+  } = useSelector((state) => state);
   const [post, setPost] = useState('');
 
   useEffect(() => {
-    getPostList();
+    onSnapshot(collection(db, COLLECTION_NAME), (querySnapshot) => {
+      const arr = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      dispatch(setPostList(arr));
+    });
   }, []);
 
-  // Read
+  // Read (1번 가져오기)
   const getPostList = async () => {
     const docs = await getDocs(collection(db, COLLECTION_NAME));
     const arr = [];
@@ -33,8 +42,9 @@ const Home = () => {
     e.preventDefault();
     try {
       await addDoc(collection(db, COLLECTION_NAME), {
+        date: Date.now(),
         post,
-        createAt: Date.now(),
+        uid: user.uid,
       });
       setPost('');
     } catch (error) {
@@ -58,7 +68,7 @@ const Home = () => {
         {postList.map((post) => (
           <li key={post.id}>
             <h4>{post.post}</h4>
-            <p>{post.createAt}</p>
+            <p>{post.date}</p>
           </li>
         ))}
       </ul>
