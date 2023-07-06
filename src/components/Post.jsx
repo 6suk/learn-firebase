@@ -2,10 +2,9 @@ import { db, storage } from 'fbase';
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useState } from 'react';
-import { isEmpty } from 'Util/util';
+import { COLLECTION_NAME, isEmpty } from 'Util/util';
 
 const Post = ({ post, isOwner }) => {
-  const COLLECTION_NAME = 'nweets';
   const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
   const date = new Date(post.date + TIME_ZONE).toISOString().split('T')[0];
   const [isEdit, setIsEdit] = useState(false);

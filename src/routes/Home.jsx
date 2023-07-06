@@ -6,9 +6,9 @@ import { setPostList } from 'slice/post';
 import Post from 'components/Post';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
+import { COLLECTION_NAME } from 'Util/util';
 
 const Home = () => {
-  const COLLECTION_NAME = 'nweets';
   const dispatch = useDispatch();
   const {
     postList: { data: postList },
