@@ -1,13 +1,16 @@
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { dateUtil } from 'Util/util';
 import { POST_DOC, storage } from 'fbase';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const Post = ({ post, isOwner }) => {
+const Post = ({ post, isOwner, tab }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editPost, setEditPost] = useState(post.post);
   const [clearImage, setClearImage] = useState(false);
+  const [fade, setFade] = useState('');
 
   // DB UPDATE
   const onEditSubmit = async (e) => {
@@ -55,16 +58,18 @@ const Post = ({ post, isOwner }) => {
   };
 
   return (
-    <li>
+    <li className={'nweet'}>
       {post.imageUrl && !clearImage && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
       {isEdit ? (
         <>
-          <form onSubmit={onEditSubmit}>
-            <input type="text" value={editPost} onChange={onEditChange} required />
+          <form onSubmit={onEditSubmit} className="container nweetEdit">
+            <input type="text" value={editPost} onChange={onEditChange} required autoFocus />
             <p>{dateUtil(post.date)}</p>
             {post.imageUrl && !clearImage && <button onClick={toggleClearImg}>이미지 삭제</button>}
-            <button onClick={toggleEdit}>취소</button>
-            <input type="submit" value="수정 완료" />
+            <button onClick={toggleEdit} className="formBtn cancelBtn">
+              취소
+            </button>
+            <input type="submit" value="수정 완료" className="formBtn" />
           </form>
         </>
       ) : (
@@ -73,8 +78,14 @@ const Post = ({ post, isOwner }) => {
           <p>{dateUtil(post.date)}</p>
           {isOwner && (
             <>
-              <button onClick={toggleEdit}>수정</button>
-              <button onClick={onDelSubmit}>삭제</button>
+              <div className="nweet__actions">
+                <span onClick={onDelSubmit}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </span>
+                <span onClick={toggleEdit}>
+                  <FontAwesomeIcon icon={faPencilAlt} />
+                </span>
+              </div>
             </>
           )}
         </>

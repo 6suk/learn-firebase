@@ -1,3 +1,5 @@
+import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { auth } from 'fbase';
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
@@ -19,12 +21,12 @@ const AuthSocial = () => {
   };
 
   return (
-    <div>
-      <button name="google" onClick={onSocialClick}>
-        Google Login
+    <div className="authBtns">
+      <button name="google" onClick={onSocialClick} className="authBtn">
+        Google Login <FontAwesomeIcon icon={faGoogle} />
       </button>
-      <button name="github" onClick={onSocialClick}>
-        Github Login
+      <button name="github" onClick={onSocialClick} className="authBtn">
+        Github Login <FontAwesomeIcon icon={faGithub} />
       </button>
     </div>
   );

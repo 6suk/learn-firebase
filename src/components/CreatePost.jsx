@@ -1,3 +1,5 @@
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { POST_COLLECTION, storage } from 'fbase';
 import { addDoc, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -83,16 +85,46 @@ const CreatePost = () => {
   const onClearImgClick = () => setImage('');
 
   return (
-    <form action="" onSubmit={onSubmit}>
+    <form action="" onSubmit={onSubmit} className="factoryForm">
+      <div className="factoryInput__container">
+        <input
+          type="text"
+          placeholder="내용 작성"
+          maxLength={120}
+          onChange={onChange}
+          value={post}
+          className="factoryInput__input"
+        />
+        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+      </div>
+      <label htmlFor="attach-file" className="factoryInput__label">
+        <span>Add photos</span>
+        <FontAwesomeIcon icon={faPlus} />
+      </label>
+      <input
+        id="attach-file"
+        type="file"
+        accept="image/*"
+        onChange={onFileChange}
+        style={{
+          opacity: 0,
+        }}
+      />
       {image && (
-        <div>
-          <img src={image} width="80px" height="80px" alt="미리보기" />
-          <button onClick={onClearImgClick}>이미지 삭제</button>
+        <div className="factoryForm__attachment">
+          <img
+            src={image}
+            style={{
+              backgroundImage: image,
+            }}
+            alt="미리보기"
+          />
+          <div className="factoryForm__clear" onClick={onClearImgClick}>
+            <span>Remove</span>
+            <FontAwesomeIcon icon={faTimes} />
+          </div>
         </div>
       )}
-      <input type="file" accept="image/*" onChange={onFileChange} />
-      <input type="text" placeholder="내용 작성" maxLength={120} onChange={onChange} value={post} />
-      <input type="submit" value="Nweet" />
     </form>
   );
 };

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
 import { setMyPostList } from 'slice/user';
+import { motion } from 'framer-motion';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Home = () => {
     user: { user, myPostList },
   } = useSelector((state) => state);
   const [tab, setTab] = useState(0);
+  const [fade, setFade] = useState('');
   const tabContent = [
     {
       id: 0,
@@ -48,31 +50,46 @@ const Home = () => {
       }));
       dispatch(setMyPostList(arr));
     });
+
+    setFade('end');
+    return () => {
+      setFade('');
+    };
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFade('end');
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      setFade('');
+    };
+  }, [tab]);
 
   const curPostList = tabContent[tab].content;
 
   return (
-    <>
-      <CreatePost />
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="container">
       {user && (
         <nav>
-          <ul>
-            {tabContent.map((tab) => (
-              <li onClick={() => setTab(tab.id)} key={tab.id}>
-                {tab.title}
+          <ul className="hometab">
+            {tabContent.map((tb) => (
+              <li onClick={() => setTab(tb.id)} key={tb.id} className={tab === tb.id && 'on'}>
+                {tb.title}
               </li>
             ))}
           </ul>
         </nav>
       )}
-
-      <ul>
+      <CreatePost />
+      <ul style={{ marginTop: 30 }} className={`start ${fade}`}>
         {curPostList.map((post) => (
-          <Post post={post} key={post.id} isOwner={user.uid === post.uid} />
+          <Post post={post} key={post.id} isOwner={user.uid === post.uid} tab={tab} />
         ))}
       </ul>
-    </>
+    </motion.div>
   );
 };
 export default Home;

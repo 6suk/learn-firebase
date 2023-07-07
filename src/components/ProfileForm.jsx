@@ -21,9 +21,16 @@ const ProfileForm = ({ refreshUser }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input type="text" value={name} onChange={onChange} />
-      <input type="submit" value="수정하기" />
+    <form onSubmit={onSubmit} className="profileForm">
+      <input type="text" value={name} onChange={onChange} autoFocus className="formInput" />
+      <input
+        type="submit"
+        value="수정하기"
+        className="formBtn"
+        style={{
+          marginTop: 10,
+        }}
+      />
     </form>
   );
 };

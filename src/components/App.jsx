@@ -46,6 +46,6 @@ function App() {
     });
   }, []);
 
-  return <>{init && <AppRouter refreshUser={refreshUser} />}</>;
+  return <>{init ? <AppRouter refreshUser={refreshUser} /> : <div>loading...</div>}</>;
 }
 export default App;
