@@ -1,5 +1,6 @@
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isEmpty } from 'Util/util';
 import { POST_COLLECTION, storage } from 'fbase';
 import { addDoc, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -14,7 +15,7 @@ const CreatePost = () => {
   const dispatch = useDispatch();
   const {
     postList: { data: postList },
-    user: { user },
+    user: { user, isLogin },
   } = useSelector((state) => state);
 
   // Read (한 번 가져오기)
@@ -69,17 +70,19 @@ const CreatePost = () => {
     const { files } = e.target;
     const file = files[0];
 
-    const reader = new FileReader();
+    if (!isEmpty(file)) {
+      const reader = new FileReader();
 
-    reader.addEventListener('loadend', (e) => {
-      // event 객체로 받을 수도 있음
-      // console.log(e);
+      reader.addEventListener('loadend', (e) => {
+        // event 객체로 받을 수도 있음
+        // console.log(e);
 
-      // FileReader.result로도 받을 수 있음
-      setImage(reader.result);
-    });
+        // FileReader.result로도 받을 수 있음
+        setImage(reader.result);
+      });
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+    }
   };
 
   const onClearImgClick = () => setImage('');
@@ -89,27 +92,37 @@ const CreatePost = () => {
       <div className="factoryInput__container">
         <input
           type="text"
-          placeholder="내용 작성"
+          placeholder={isLogin ? '내용 작성' : '로그인 후 이용 가능 합니다!'}
           maxLength={120}
           onChange={onChange}
           value={post}
           className="factoryInput__input"
+          disabled={isLogin ? false : true}
         />
-        <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+        <input type="submit" value="&rarr;" className="factoryInput__arrow" disabled={isLogin ? false : true} />
       </div>
-      <label htmlFor="attach-file" className="factoryInput__label">
-        <span>Add photos</span>
-        <FontAwesomeIcon icon={faPlus} />
-      </label>
       <input
         id="attach-file"
         type="file"
         accept="image/*"
         onChange={onFileChange}
-        style={{
-          opacity: 0,
-        }}
+        className="factoryInput__file"
+        disabled={isLogin ? false : true}
       />
+      {image ? (
+        <div className="factoryForm__clear" onClick={onClearImgClick}>
+          <span>Remove</span>
+          <FontAwesomeIcon icon={faTimes} />
+        </div>
+      ) : (
+        <>
+          <label htmlFor="attach-file" className="factoryInput__label">
+            <span>Add photos</span>
+            <FontAwesomeIcon icon={faPlus} />
+          </label>
+        </>
+      )}
+
       {image && (
         <div className="factoryForm__attachment">
           <img
@@ -119,10 +132,6 @@ const CreatePost = () => {
             }}
             alt="미리보기"
           />
-          <div className="factoryForm__clear" onClick={onClearImgClick}>
-            <span>Remove</span>
-            <FontAwesomeIcon icon={faTimes} />
-          </div>
         </div>
       )}
     </form>

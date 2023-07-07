@@ -2,9 +2,9 @@ import HomeTab from 'components/Hometab';
 import Post from 'components/Post';
 import { POST_COLLECTION } from 'fbase';
 import { onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { setPostList } from 'slice/post';
 import { setMyPostList } from 'slice/user';
 
@@ -25,16 +25,17 @@ const Home = () => {
       }));
       dispatch(setPostList(arr));
     });
-
-    // 내가 작성한 게시물 리스트
-    const myQuery = query(POST_COLLECTION, where('uid', '==', user.uid), orderBy('date', 'desc'));
-    onSnapshot(myQuery, (snapshop) => {
-      const arr = snapshop.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      dispatch(setMyPostList(arr));
-    });
+    if (user) {
+      // 내가 작성한 게시물 리스트
+      const myQuery = query(POST_COLLECTION, where('uid', '==', user.uid), orderBy('date', 'desc'));
+      onSnapshot(myQuery, (snapshop) => {
+        const arr = snapshop.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        dispatch(setMyPostList(arr));
+      });
+    }
   }, []);
 
   return (

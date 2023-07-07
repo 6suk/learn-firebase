@@ -8,12 +8,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CreatePost from './CreatePost';
+import { keyframes, styled } from 'styled-components';
 
 const Post = () => {
   const { type } = useParams();
   const {
     postList: { data: postList },
-    user: { user, myPostList },
+    user: { user, myPostList, isLogin },
   } = useSelector((state) => state);
   const [data, setData] = useState([]);
 
@@ -31,11 +32,14 @@ const Post = () => {
   return (
     <>
       <CreatePost />
-      <ul style={{ marginTop: 30 }}>
-        {data.map((post) => (
-          <PostItem key={post.id} post={post} isOwner={user.uid === post.uid} />
-        ))}
-      </ul>
+      <PostAnimation>
+        {data.length === 0 && <div className="nweet__nopost">등록된 게시물이 없어요!</div>}
+        <ul style={{ marginTop: 30 }}>
+          {data.map((post) => (
+            <PostItem key={post.id} post={post} isOwner={isLogin && user.uid === post.uid} />
+          ))}
+        </ul>
+      </PostAnimation>
     </>
   );
 };
@@ -132,5 +136,21 @@ const PostItem = ({ post, isOwner }) => {
     </li>
   );
 };
+
+const Animation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const PostAnimation = styled.div`
+  animation: ${Animation} 0.8s ease-in-out forwards;
+`;
 
 export default Post;
