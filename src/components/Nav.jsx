@@ -17,12 +17,12 @@ const Nav = () => {
             <FontAwesomeIcon icon={faTwitter} color={'#04AAFF'} size="2x" />
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to={'/Profile'} className="navProfile">
             <FontAwesomeIcon icon={faUser} color={'#04AAFF'} size="2x" />
             <span style={{ marginTop: 10 }}>{displayName ? `${displayName}` : 'Profile'}</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

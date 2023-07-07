@@ -1,27 +1,28 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Nav from 'components/Nav';
+import { AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 import Auth from 'routes/Auth';
 import Home from 'routes/Home';
-import { useSelector } from 'react-redux';
-import Nav from 'components/Nav';
 import Profile from 'routes/Profile';
-import { keyframes, styled } from 'styled-components';
-import { AnimatePresence } from 'framer-motion';
+import { styled } from 'styled-components';
+import Post from './Post';
 
 const AppRouter = ({ refreshUser }) => {
   const { user } = useSelector((state) => state.user);
-  const isLogin = Boolean(user);
 
   return (
-    <BrowserRouter>
-      {isLogin && <Nav />}
-
+    <>
+      {user && <Nav />}
       <Container>
         <AnimatePresence>
           <Routes>
-            {isLogin ? (
+            {user ? (
               <>
-                <Route path="/" element={<Home />} />
-                <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
+                <Route path="/" element={<Home />}>
+                  <Route path="/post/:type" element={<Post />} />
+                  <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
+                </Route>
               </>
             ) : (
               <Route path="/" element={<Auth />} />
@@ -30,7 +31,7 @@ const AppRouter = ({ refreshUser }) => {
           </Routes>
         </AnimatePresence>
       </Container>
-    </BrowserRouter>
+    </>
   );
 };
 

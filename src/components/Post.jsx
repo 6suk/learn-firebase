@@ -1,16 +1,49 @@
 import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { dateUtil } from 'Util/util';
+import { dateUtil, isEmpty } from 'Util/util';
 import { POST_DOC, storage } from 'fbase';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import CreatePost from './CreatePost';
 
-const Post = ({ post, isOwner, tab }) => {
+const Post = () => {
+  const { type } = useParams();
+  const {
+    postList: { data: postList },
+    user: { user, myPostList },
+  } = useSelector((state) => state);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    switch (type) {
+      case 'user':
+        setData(myPostList);
+        break;
+      default:
+        setData(postList);
+        break;
+    }
+  }, [type, postList, myPostList]);
+
+  return (
+    <>
+      <CreatePost />
+      <ul style={{ marginTop: 30 }}>
+        {data.map((post) => (
+          <PostItem key={post.id} post={post} isOwner={user.uid === post.uid} />
+        ))}
+      </ul>
+    </>
+  );
+};
+
+const PostItem = ({ post, isOwner }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editPost, setEditPost] = useState(post.post);
   const [clearImage, setClearImage] = useState(false);
-  const [fade, setFade] = useState('');
 
   // DB UPDATE
   const onEditSubmit = async (e) => {
@@ -40,17 +73,23 @@ const Post = ({ post, isOwner, tab }) => {
 
   // DB DELETE
   const onDelSubmit = async () => {
-    const ok = window.confirm('정말 삭제 할거임?');
-    if (ok) {
-      await delImgInStorage();
-      await deleteDoc(POST_DOC(post.id));
+    try {
+      const ok = window.confirm('정말 삭제 할거임?');
+      if (ok) {
+        await delImgInStorage();
+        await deleteDoc(POST_DOC(post.id));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   // STORAGE DELETE
   const delImgInStorage = async () => {
-    const curImgRef = ref(storage, post.imageUrl);
-    await deleteObject(curImgRef);
+    if (!isEmpty(post.imageUrl)) {
+      const curImgRef = ref(storage, post.imageUrl);
+      await deleteObject(curImgRef);
+    }
   };
 
   const toggleClearImg = () => {
