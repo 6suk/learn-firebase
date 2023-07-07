@@ -5,7 +5,7 @@ import { useState } from 'react';
 const AuthForm = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [newAccount, setNewAccount] = useState(true);
+  const [newAccount, setNewAccount] = useState(false);
   const [error, setError] = useState();
 
   const onChange = (e) => {
@@ -40,25 +40,34 @@ const AuthForm = () => {
     }
   };
 
-  const toggleAccount = () => setNewAccount((prev) => !prev);
+  const toggleAccount = (type) => setNewAccount(type);
 
   return (
-    <form action="" onSubmit={onSubmit} className="container">
-      <input type="email" placeholder="email" name="email" required onChange={onChange} className="authInput" />
-      <input
-        type="password"
-        placeholder="password"
-        name="password"
-        required
-        onChange={onChange}
-        className="authInput"
-      />
-      <input type="submit" value={newAccount ? 'Join' : 'Login'} className="authInput authSubmit" />
-      <button onClick={toggleAccount} className="authSwitch">
-        {newAccount ? 'Change login' : 'Change Join'}
-      </button>
+    <>
+      <nav>
+        <ul className="hometab auth">
+          <li onClick={() => toggleAccount(false)} className={!newAccount && 'on'}>
+            LOGIN
+          </li>
+          <li onClick={() => toggleAccount(true)} className={newAccount && 'on'}>
+            JOIN
+          </li>
+        </ul>
+      </nav>
+      <form action="" onSubmit={onSubmit} className="container">
+        <input type="email" placeholder="email" name="email" required onChange={onChange} className="authInput" />
+        <input
+          type="password"
+          placeholder="password"
+          name="password"
+          required
+          onChange={onChange}
+          className="authInput"
+        />
+        <input type="submit" value={newAccount ? 'JOIN' : 'LOGIN'} className="authInput authSubmit" />
+      </form>
       {error && <span className="authError">{error}</span>}
-    </form>
+    </>
   );
 };
 
