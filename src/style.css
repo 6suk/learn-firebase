@@ -22,6 +22,9 @@ body {
 button {
   background-color: white;
   color: black;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard Variable', Pretendard, 'DM Sans',
+    Roboto, 'Noto Sans KR', 'Segoe UI', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    sans-serif;
 }
 
 a {
@@ -47,7 +50,7 @@ form {
 
 .formInput {
   width: 100%;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 20px;
   border: 1px solid black;
   text-align: center;
@@ -58,7 +61,7 @@ form {
 .formBtn {
   cursor: pointer;
   width: 100%;
-  padding: 7px 20px;
+  padding: 12px 20px;
   text-align: center;
   color: white;
   border-radius: 20px;
@@ -127,9 +130,29 @@ form {
   color: white;
 }
 
+.factoryInput__input:disabled {
+  color: #04aaff;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.factoryInput__arrow:disabled {
+  background-color: #949494;
+}
+
 .factoryInput__label {
   color: #04aaff;
   cursor: pointer;
+}
+
+.factoryInput__file {
+  opacity: 0;
+  height: 0;
+}
+
+.factoryInput__file:disabled ~ .factoryInput__label {
+  color: #999;
+  cursor: default;
 }
 
 .factoryInput__label span {
@@ -141,6 +164,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 1rem;
 }
 
 .factoryForm__attachment img {
@@ -215,14 +239,22 @@ form {
   margin-right: 10px;
 }
 
+.nweet__nopost {
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: #999;
+  margin-block: 5rem;
+}
+
 /* Auth */
 
 .authContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  min-width: 320px;
 }
 
 .authBtns {
@@ -230,6 +262,9 @@ form {
   justify-content: space-between;
   width: 100%;
   max-width: 320px;
+  gap: 0.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #999;
 }
 
 .authBtn {
@@ -239,9 +274,10 @@ form {
   padding: 10px 0px;
   font-size: 12px;
   text-align: center;
-  width: 150px;
-  background: white;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 /* AuthForm */
@@ -249,12 +285,13 @@ form {
 .authInput {
   max-width: 320px;
   width: 100%;
-  padding: 10px;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 1);
+  padding: 13px 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 14px;
   color: black;
+  letter-spacing: 0.5px;
 }
 
 .authSubmit {
@@ -262,7 +299,9 @@ form {
   background: #04aaff;
   color: white;
   margin-top: 10px;
+  margin-bottom: 2rem;
   cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
 .authError {
@@ -304,24 +343,39 @@ form {
   display: flex;
   gap: 1rem;
   font-size: 14px;
-  justify-content: center;
+  justify-content: space-between;
   padding-bottom: 2rem;
 }
 
+.hometab.auth {
+  justify-content: flex-start;
+  gap: 1rem;
+  letter-spacing: 0.5px;
+}
+
 .hometab li {
+  display: flex;
+  gap: 1rem;
+  position: relative;
   cursor: pointer;
   color: #04aaff;
 }
 
-.hometab li.on {
+.hometab p {
+  position: relative;
+}
+
+.on {
   font-weight: 600;
 }
 
-.hometab li.on::after {
+.on::after {
   content: '';
-  padding-top: 0.5rem;
   border-bottom: 2px solid #04aaff;
   display: block;
+  width: 100%;
+  position: absolute;
+  bottom: -0.5rem;
 }
 
 .start {
