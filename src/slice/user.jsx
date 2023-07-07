@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const user = createSlice({
   name: 'user',
   initialState: {
+    isLogin: false,
     /**
      * {uid(key), displayName, photoURL, email, updateProfile(args)}
      */
@@ -15,9 +16,11 @@ const user = createSlice({
   reducers: {
     setLogin: (state, action) => {
       state.user = action.payload;
+      state.isLogin = true;
     },
     setLogout: (state) => {
       state.user = null;
+      state.isLogin = false;
     },
     setMyPostList: (state, action) => {
       state.myPostList = action.payload;

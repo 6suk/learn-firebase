@@ -7,26 +7,22 @@ import Home from 'routes/Home';
 import Profile from 'routes/Profile';
 import { styled } from 'styled-components';
 import Post from './Post';
+import HomeTab from './Hometab';
 
 const AppRouter = ({ refreshUser }) => {
-  const { user } = useSelector((state) => state.user);
+  const { user, isLogin } = useSelector((state) => state.user);
 
   return (
     <>
-      {user && <Nav />}
+      <Nav />
       <Container>
         <AnimatePresence>
           <Routes>
-            {user ? (
-              <>
-                <Route path="/" element={<Home />}>
-                  <Route path="/post/:type" element={<Post />} />
-                  <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
-                </Route>
-              </>
-            ) : (
-              <Route path="/" element={<Auth />} />
-            )}
+            <Route path="/" element={<Home />}>
+              <Route path="/post/:type" element={<Post />} />
+              <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
+            </Route>
+            <Route path="/login" element={<Auth isLogin={isLogin} />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </AnimatePresence>
