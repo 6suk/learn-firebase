@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
 import { v4 as uuid } from 'uuid';
+import PostPhotoForm from './PostPhotoForm';
 
 const CreatePost = () => {
   const [post, setPost] = useState('');
@@ -66,27 +67,6 @@ const CreatePost = () => {
     setPost(value);
   };
 
-  const onFileChange = (e) => {
-    const { files } = e.target;
-    const file = files[0];
-
-    if (!isEmpty(file)) {
-      const reader = new FileReader();
-
-      reader.addEventListener('loadend', (e) => {
-        // event 객체로 받을 수도 있음
-        // console.log(e);
-
-        // FileReader.result로도 받을 수 있음
-        setImage(reader.result);
-      });
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onClearImgClick = () => setImage('');
-
   return (
     <form action="" onSubmit={onSubmit} className="factoryForm">
       <div className="factoryInput__container">
@@ -101,39 +81,7 @@ const CreatePost = () => {
         />
         <input type="submit" value="&rarr;" className="factoryInput__arrow" disabled={isLogin ? false : true} />
       </div>
-      <input
-        id="attach-file"
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-        className="factoryInput__file"
-        disabled={isLogin ? false : true}
-      />
-      {image ? (
-        <div className="factoryForm__clear" onClick={onClearImgClick}>
-          <span>Remove</span>
-          <FontAwesomeIcon icon={faTimes} />
-        </div>
-      ) : (
-        <>
-          <label htmlFor="attach-file" className="factoryInput__label">
-            <span>Add photos</span>
-            <FontAwesomeIcon icon={faPlus} />
-          </label>
-        </>
-      )}
-
-      {image && (
-        <div className="factoryForm__attachment">
-          <img
-            src={image}
-            style={{
-              backgroundImage: image,
-            }}
-            alt="미리보기"
-          />
-        </div>
-      )}
+      <PostPhotoForm image={image} setImage={setImage} />
     </form>
   );
 };
