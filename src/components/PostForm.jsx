@@ -1,6 +1,3 @@
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isEmpty } from 'util/util';
 import { POST_COLLECTION, storage } from 'fbase';
 import { addDoc, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -15,7 +12,6 @@ const CreatePost = () => {
   const [image, setImage] = useState('');
   const dispatch = useDispatch();
   const {
-    postList: { data: postList },
     user: { user, isLogin },
   } = useSelector((state) => state);
 
@@ -33,7 +29,7 @@ const CreatePost = () => {
     dispatch(setPostList(arr));
   };
 
-  // Create
+  // SAVE
   const onSubmit = async (e) => {
     e.preventDefault();
     try {

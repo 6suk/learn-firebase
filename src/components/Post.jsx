@@ -1,25 +1,25 @@
-import { faPencilAlt, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { dateUtil, delImgInStorage, isEmpty } from 'util/util';
 import { POST_DOC, storage } from 'fbase';
-import { deleteDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import CreatePost from './PostForm';
 import { keyframes, styled } from 'styled-components';
+import { dateUtil, isEmpty } from 'util/util';
 import PostEdit from './PostEditForm';
+import CreatePost from './PostForm';
 
 /**
  * 전체 포스트 리스트
  */
 const Post = () => {
-  const { type } = useParams();
   const {
     postList: { data: postList },
     user: { user, myPostList, isLogin },
   } = useSelector((state) => state);
+  const { type } = useParams();
   const [data, setData] = useState([]);
   const [togglePostForm, setTogglePostForm] = useState(true);
 
@@ -95,13 +95,13 @@ const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePos
   };
 
   const editProps = {
-    editPost,
     post,
-    setIsEdit,
-    setEditPost,
+    editPost,
     toggleEdit,
-    delImgInStorage,
     setTogglePostForm,
+    setEditPost,
+    setIsEdit,
+    delImgInStorage,
   };
 
   return (

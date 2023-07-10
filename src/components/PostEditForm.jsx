@@ -8,12 +8,9 @@ import { useSelector } from 'react-redux';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 const PostEdit = ({ editProps }) => {
-  const { editPost, post, setIsEdit, setEditPost, toggleEdit, delImgInStorage, setTogglePostForm } = editProps;
+  const { post, editPost, toggleEdit, setTogglePostForm, setEditPost, setIsEdit, delImgInStorage } = editProps;
   const [image, setImage] = useState(post.imageUrl);
-  const {
-    postList: { data: postList },
-    user: { user, isLogin },
-  } = useSelector((state) => state);
+  const { user } = useSelector((state) => state.user);
 
   // DB UPDATE
   const onEditSubmit = async (e) => {
@@ -33,6 +30,7 @@ const PostEdit = ({ editProps }) => {
         }
       }
 
+      // DB Update
       await updateDoc(POST_DOC(post.id), {
         post: editPost,
         imageUrl: imageUrl,

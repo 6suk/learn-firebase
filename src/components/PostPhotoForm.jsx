@@ -4,10 +4,7 @@ import { isEmpty } from 'util/util';
 import { useSelector } from 'react-redux';
 
 const PostPhotoForm = ({ image, setImage }) => {
-  const {
-    postList: { data: postList },
-    user: { user, isLogin },
-  } = useSelector((state) => state);
+  const { isLogin } = useSelector((state) => state.user);
 
   const onFileChange = (e) => {
     const { files } = e.target;
@@ -17,9 +14,6 @@ const PostPhotoForm = ({ image, setImage }) => {
       const reader = new FileReader();
 
       reader.addEventListener('loadend', (e) => {
-        // event 객체로 받을 수도 있음
-        // console.log(e);
-
         // FileReader.result로도 받을 수 있음
         setImage(reader.result);
       });
