@@ -39,13 +39,13 @@ const HomeTab = () => {
           {tabContent.map(
             (tb) =>
               tb.view && (
-                <p onClick={() => navigate(tb.url)} key={tb.id} className={pathname === tb.url && 'on'}>
+                <p onClick={() => navigate(tb.url)} key={tb.id} className={pathname === tb.url ? 'on' : ''}>
                   {tb.title}
                 </p>
               )
           )}
         </li>
-        <li onClick={() => navigate(tabProfile.url)} className={pathname === tabProfile.url && 'on'}>
+        <li onClick={() => navigate(tabProfile.url)} className={pathname === tabProfile.url ? 'on' : ''}>
           {tabProfile.title}
         </li>
       </ul>
