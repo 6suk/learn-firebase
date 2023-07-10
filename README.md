@@ -1,6 +1,5 @@
-# React & Firebase
+# 🔥 React & Firebase
 
-- 🔥 **파이어베이스**를 학습해보자!
 - [🔗 배포 사이트](https://6suk.github.io/learn_firebase/)
   - 테스트 아이디 `test@test.com` / 비밀번호 `123456`
 - [✨ 이슈보기](https://github.com/6suk/learn_firebase/issues?q=is%3Aissue+is%3Aall)
@@ -37,7 +36,6 @@
 
 ### ◽ 닉네임 변경
 
-<img src = 'https://github.com/6suk/learn_firebase/assets/110910042/04c42eac-f91b-4ff9-a13d-96937f6fea1c
-'>
+<img src = 'https://github.com/6suk/learn_firebase/assets/110910042/04c42eac-f91b-4ff9-a13d-96937f6fea1c'>
 
 <br><br><br><br>
