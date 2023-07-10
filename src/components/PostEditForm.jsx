@@ -17,7 +17,7 @@ const PostEdit = ({ editProps }) => {
     e.preventDefault();
 
     try {
-      let imageUrl = '';
+      let imageUrl = post.imageUrl;
 
       // 이미지 변경 시
       if (post.imageUrl !== image) {
