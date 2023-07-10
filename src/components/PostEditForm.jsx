@@ -50,7 +50,7 @@ const PostEdit = ({ editProps }) => {
 
   return (
     <form onSubmit={onEditSubmit} className="container nweetEdit">
-      <input type="text" value={editPost} onChange={onEditChange} required autoFocus />
+      <input type="text" value={editPost} onChange={onEditChange} required autoFocus maxLength={120} />
       <p>{dateUtil(post.date)}</p>
       <PostPhotoForm image={image} setImage={setImage} />
       <div className="editBtns">
