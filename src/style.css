@@ -38,6 +38,15 @@ form {
   width: 100%;
 }
 
+.loading {
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
 .nweet-input::placeholder {
   color: white;
   opacity: 0.9;
@@ -235,6 +244,7 @@ form {
 .nweet h4 {
   font-size: 14px;
   max-width: 80%;
+  line-height: 1.5;
 }
 
 .nweet p {
