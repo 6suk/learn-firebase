@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/learn_firebase/static/css/main.b71482a9.css",
+    "main.js": "/learn_firebase/static/js/main.736335a8.js",
+    "index.html": "/learn_firebase/index.html",
+    "main.b71482a9.css.map": "/learn_firebase/static/css/main.b71482a9.css.map",
+    "main.736335a8.js.map": "/learn_firebase/static/js/main.736335a8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b71482a9.css",
+    "static/js/main.736335a8.js"
+  ]
+}
