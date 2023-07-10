@@ -14,8 +14,8 @@ const AppRouter = ({ refreshUser }) => {
 
   return (
     <>
-      <Nav />
       <Container>
+        <Nav />
         <AnimatePresence>
           <Routes>
             <Route path="/" element={<Home />}>
@@ -32,12 +32,14 @@ const AppRouter = ({ refreshUser }) => {
 };
 
 const Container = styled.section`
-  max-width: 890px;
   width: 100%;
+  max-width: 890px;
   margin: 0 auto;
-  margin-top: 80px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-block: 5rem;
+  gap: 3rem;
 `;
 
 export default AppRouter;

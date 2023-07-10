@@ -150,7 +150,7 @@ const Animation = keyframes`
 `;
 
 const PostAnimation = styled.div`
-  animation: ${Animation} 0.8s ease-in-out forwards;
+  animation: ${Animation} 0.5s ease-in-out forwards;
 `;
 
 export default Post;

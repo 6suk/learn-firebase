@@ -17,6 +17,8 @@ body {
     sans-serif;
   font-size: 14px;
   color: white;
+  user-select: none;
+  overflow-y: scroll;
 }
 
 button {
@@ -46,6 +48,7 @@ form {
   max-width: 320px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .formInput {
@@ -207,17 +210,18 @@ form {
 
 .nweet h4 {
   font-size: 14px;
+  max-width: 80%;
 }
 
 .nweet p {
   font-size: 12px;
-  color: 999;
+  color: #999;
   margin-top: 0.8rem;
 }
 
 .nweet img {
-  right: -10px;
-  top: 20px;
+  right: -15px;
+  bottom: -10px;
   position: absolute;
   border-radius: 50%;
   width: 50px;
@@ -324,7 +328,8 @@ form {
 .navWrap {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .navHome {

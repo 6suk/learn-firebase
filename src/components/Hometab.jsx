@@ -26,7 +26,7 @@ const HomeTab = () => {
 
   const tabProfile = {
     id: 2,
-    title: user ? `${user.displayName} Profile` : 'LogIn',
+    title: user ? `${user.displayName || ''} Profile` : 'LogIn',
     url: user ? '/profile' : '/login',
     view: true,
     group: false,
