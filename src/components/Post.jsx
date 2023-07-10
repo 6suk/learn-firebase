@@ -112,7 +112,9 @@ const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePos
         <>
           {post.imageUrl && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
           <h4>{post.post}</h4>
-          <p>{dateUtil(post.date)}</p>
+          <p>
+            {post.displayName} <span>{dateUtil(post.date)}</span>
+          </p>
           {isOwner && (
             <>
               <div className="nweet__actions">

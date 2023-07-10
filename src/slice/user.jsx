@@ -18,12 +18,13 @@ const user = createSlice({
       state.user = action.payload;
       state.isLogin = true;
     },
+    setMyPostList: (state, action) => {
+      state.myPostList = action.payload;
+    },
     setLogout: (state) => {
       state.user = null;
       state.isLogin = false;
-    },
-    setMyPostList: (state, action) => {
-      state.myPostList = action.payload;
+      state.myPostList = [];
     },
   },
 });
