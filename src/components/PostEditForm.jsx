@@ -27,6 +27,8 @@ const PostEdit = ({ editProps }) => {
           const fileRef = ref(storage, `${user.uid}/${uuid()}`);
           const uploadResult = await uploadString(fileRef, image, 'data_url');
           imageUrl = await getDownloadURL(uploadResult.ref);
+        } else {
+          imageUrl = '';
         }
       }
 
