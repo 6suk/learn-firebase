@@ -1,6 +1,6 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { dateUtil } from 'Util/util';
+import { dateUtil } from 'util/util';
 import { POST_DOC } from 'fbase';
 import { updateDoc } from 'firebase/firestore';
 

@@ -1,6 +1,6 @@
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isEmpty } from 'Util/util';
+import { isEmpty } from 'util/util';
 import { POST_COLLECTION, storage } from 'fbase';
 import { addDoc, getDocs } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';

@@ -1,6 +1,6 @@
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isEmpty } from 'Util/util';
+import { isEmpty } from 'util/util';
 import { useSelector } from 'react-redux';
 
 const PostPhotoForm = ({ image, setImage }) => {

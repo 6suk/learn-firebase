@@ -1,6 +1,6 @@
 import { faPencilAlt, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { dateUtil, delImgInStorage, isEmpty } from 'Util/util';
+import { dateUtil, delImgInStorage, isEmpty } from 'util/util';
 import { POST_DOC, storage } from 'fbase';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
