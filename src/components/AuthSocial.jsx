@@ -1,6 +1,6 @@
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { auth } from 'fbase';
+import { SET_USER_DOC, auth } from 'fbase';
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const AuthSocial = () => {
@@ -17,7 +17,8 @@ const AuthSocial = () => {
       default:
         break;
     }
-    await signInWithPopup(auth, provide);
+    const { user } = await signInWithPopup(auth, provide);
+    SET_USER_DOC(user);
   };
 
   return (

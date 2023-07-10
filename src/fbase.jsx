@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { getStorage, ref } from 'firebase/storage';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { isEmpty } from 'util/util';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -51,6 +52,12 @@ export const SET_USER_DOC = async (user) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const GET_USER_BY_UID = async (uid) => {
+  const getUserByUid = await getDoc(USER_DOC(uid));
+  // null : undefined
+  return getUserByUid.data();
 };
 
 export { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword };
