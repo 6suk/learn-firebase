@@ -1,5 +1,5 @@
 import AppRouter from 'components/Router';
-import { auth, onAuthStateChanged } from 'fbase';
+import { auth, onAuthStateChanged, SET_USER_DOC } from 'fbase';
 import { updateProfile } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ function App() {
     const user = auth.currentUser;
     const userObj = setUserObj(user);
     dispatch(setLogin(userObj));
+    SET_USER_DOC(user);
   };
 
   // 유저 - 필요한 정보만 가져오기

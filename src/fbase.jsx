@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getFirestore } from 'firebase/firestore';
+import { collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 import { getStorage, ref } from 'firebase/storage';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
@@ -26,6 +26,7 @@ export const storage = getStorage(app);
 
 // DataBase : Post
 const COLLECTION_NAME = 'nweets';
+const USER_COLLECTION_NAME = 'users';
 /**
  * @returns — The CollectionReference instance.
  */
@@ -36,6 +37,20 @@ export const POST_COLLECTION = collection(db, COLLECTION_NAME);
  */
 export const POST_DOC = (id) => {
   return doc(db, COLLECTION_NAME, id);
+};
+export const USER_DOC = (uid) => doc(db, USER_COLLECTION_NAME, uid);
+
+export const SET_USER_DOC = async (user) => {
+  const { uid, displayName, photoURL, email } = user;
+  try {
+    await setDoc(USER_DOC(uid), {
+      displayName,
+      photoURL,
+      email,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword };

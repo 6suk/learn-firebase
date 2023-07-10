@@ -1,4 +1,4 @@
-import { auth } from 'fbase';
+import { auth, SET_USER_DOC } from 'fbase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 
@@ -30,7 +30,8 @@ const AuthForm = () => {
     try {
       if (newAccount) {
         // 회원가입
-        await createUserWithEmailAndPassword(auth, email, password);
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        SET_USER_DOC(user);
       } else {
         // 로그인
         await signInWithEmailAndPassword(auth, email, password);
