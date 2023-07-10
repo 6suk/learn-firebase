@@ -9,8 +9,11 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import CreatePost from './PostForm';
 import { keyframes, styled } from 'styled-components';
-import PostEdit from './PostEdit';
+import PostEdit from './PostEditForm';
 
+/**
+ * 전체 포스트 리스트
+ */
 const Post = () => {
   const { type } = useParams();
   const {
@@ -18,6 +21,7 @@ const Post = () => {
     user: { user, myPostList, isLogin },
   } = useSelector((state) => state);
   const [data, setData] = useState([]);
+  const [togglePostForm, setTogglePostForm] = useState(true);
 
   useEffect(() => {
     switch (type) {
@@ -30,14 +34,24 @@ const Post = () => {
     }
   }, [type, postList, myPostList]);
 
+  const postItmeProps = {
+    togglePostForm,
+    setTogglePostForm,
+  };
+
   return (
     <>
-      <CreatePost />
+      {togglePostForm && <CreatePost />}
       <PostAnimation>
         {data.length === 0 && <div className="nweet__nopost">등록된 게시물이 없어요!</div>}
         <ul style={{ marginTop: 30 }}>
           {data.map((post) => (
-            <PostItem key={post.id} post={post} isOwner={isLogin && user.uid === post.uid} />
+            <PostItem
+              key={post.id}
+              post={post}
+              isOwner={isLogin && user.uid === post.uid}
+              postItmeProps={postItmeProps}
+            />
           ))}
         </ul>
       </PostAnimation>
@@ -45,10 +59,14 @@ const Post = () => {
   );
 };
 
-const PostItem = ({ post, isOwner }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [clearImage, setClearImage] = useState(false);
+/**
+ * 각각 포스트
+ * @param {*} post
+ * @param {*} isOwner
+ */
+const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePostForm } }) => {
   const [editPost, setEditPost] = useState(post.post);
+  const [isEdit, setIsEdit] = useState(false);
 
   // STORAGE DELETE
   const delImgInStorage = async () => {
@@ -60,7 +78,7 @@ const PostItem = ({ post, isOwner }) => {
 
   const toggleEdit = (e) => {
     setIsEdit(!isEdit);
-    setClearImage(false);
+    setTogglePostForm(!togglePostForm);
   };
 
   // DB DELETE
@@ -78,22 +96,21 @@ const PostItem = ({ post, isOwner }) => {
 
   const editProps = {
     editPost,
-    clearImage,
     post,
     setIsEdit,
-    setClearImage,
     setEditPost,
     toggleEdit,
     delImgInStorage,
+    setTogglePostForm,
   };
 
   return (
     <li className={'nweet'}>
-      {post.imageUrl && !clearImage && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
       {isEdit ? (
         <PostEdit editProps={editProps} />
       ) : (
         <>
+          {post.imageUrl && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
           <h4>{post.post}</h4>
           <p>{dateUtil(post.date)}</p>
           {isOwner && (
