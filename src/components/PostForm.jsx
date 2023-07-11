@@ -1,37 +1,18 @@
 import { POST_COLLECTION, storage } from 'fbase';
-import { addDoc, getDocs } from 'firebase/firestore';
+import { addDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import useInput from 'hooks/useInput';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPostList } from 'slice/post';
+import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import PostPhotoForm from './PostPhotoForm';
 
 const CreatePost = () => {
-  const [post, setPost] = useState('');
   const [image, setImage] = useState('');
-  const dispatch = useDispatch();
-  const {
-    user: { user, isLogin },
-  } = useSelector((state) => state);
-
-  // Read (한 번 가져오기)
-  const getPostList = async () => {
-    const docs = await getDocs(POST_COLLECTION);
-    const arr = [];
-    docs.forEach((doc) => {
-      const postObj = {
-        id: doc.id,
-        ...doc.data(),
-      };
-      arr.push(postObj);
-    });
-    dispatch(setPostList(arr));
-  };
+  const { user, isLogin } = useSelector((state) => state.user);
 
   // SAVE
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const saveFireStore = async (post) => {
     try {
       let imageUrl = '';
 
@@ -51,17 +32,13 @@ const CreatePost = () => {
       });
 
       // 초기화
-      setPost('');
       setImage('');
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onChange = (e) => {
-    const { value } = e.target;
-    setPost(value);
-  };
+  const [inputValue, onChange, onSubmit] = useInput('', saveFireStore, true);
 
   return (
     <form action="" onSubmit={onSubmit} className="factoryForm">
@@ -70,8 +47,8 @@ const CreatePost = () => {
           type="text"
           placeholder={isLogin ? '내용 작성' : '로그인 후 이용 가능 합니다!'}
           maxLength={120}
+          value={inputValue}
           onChange={onChange}
-          value={post}
           className="factoryInput__input"
           disabled={isLogin ? false : true}
         />

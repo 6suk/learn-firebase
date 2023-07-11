@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSelector } from 'react-redux';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import useInput from 'hooks/useInput';
 
 const PostEdit = ({ editProps }) => {
   const { post, editPost, toggleEdit, setTogglePostForm, setEditPost, setIsEdit, delImgInStorage } = editProps;
@@ -13,9 +14,7 @@ const PostEdit = ({ editProps }) => {
   const { user } = useSelector((state) => state.user);
 
   // DB UPDATE
-  const onEditSubmit = async (e) => {
-    e.preventDefault();
-
+  const onEditSubmit = async (input) => {
     try {
       let imageUrl = post.imageUrl;
 
@@ -34,7 +33,7 @@ const PostEdit = ({ editProps }) => {
 
       // DB Update
       await updateDoc(POST_DOC(post.id), {
-        post: editPost,
+        post: input,
         imageUrl: imageUrl,
       });
 
@@ -45,14 +44,11 @@ const PostEdit = ({ editProps }) => {
     }
   };
 
-  const onEditChange = (e) => {
-    const { value } = e.target;
-    setEditPost(value);
-  };
+  const [inputValue, onChange, onSubmit] = useInput(post.post, onEditSubmit);
 
   return (
-    <form onSubmit={onEditSubmit} className="container nweetEdit">
-      <input type="text" value={editPost} onChange={onEditChange} required autoFocus maxLength={120} />
+    <form onSubmit={onSubmit} className="container nweetEdit">
+      <input type="text" onChange={onChange} value={inputValue} required autoFocus maxLength={120} />
       <p>{dateUtil(post.date)}</p>
       <PostPhotoForm image={image} setImage={setImage} />
       <div className="editBtns">

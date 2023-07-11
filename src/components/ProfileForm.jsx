@@ -1,28 +1,25 @@
-import { useState } from 'react';
+import useInitUser from 'hooks/useInitUser';
+import useInput from 'hooks/useInput';
 import { useSelector } from 'react-redux';
 
-const ProfileForm = ({ refreshUser }) => {
+const ProfileForm = () => {
   const { user } = useSelector((state) => state.user);
-  const [name, setName] = useState(user.displayName);
+  const { refreshUser } = useInitUser();
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (user.displayName !== name) {
+  const submitProfile = async (input) => {
+    if (user.displayName !== input) {
       await user.updateProfile({
-        displayName: name,
+        displayName: input,
       });
       refreshUser();
     }
   };
 
-  const onChange = (e) => {
-    const { value } = e.target;
-    setName(value);
-  };
+  const [inputValue, onChange, onSubmit] = useInput(user.displayName, submitProfile);
 
   return (
     <form onSubmit={onSubmit} className="profileForm">
-      <input type="text" value={name} onChange={onChange} autoFocus className="formInput" />
+      <input type="text" value={inputValue} onChange={onChange} autoFocus className="formInput" />
       <input
         type="submit"
         value="수정하기"
