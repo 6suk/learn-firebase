@@ -15,20 +15,6 @@ const CreatePost = () => {
     user: { user, isLogin },
   } = useSelector((state) => state);
 
-  // Read (한 번 가져오기)
-  const getPostList = async () => {
-    const docs = await getDocs(POST_COLLECTION);
-    const arr = [];
-    docs.forEach((doc) => {
-      const postObj = {
-        id: doc.id,
-        ...doc.data(),
-      };
-      arr.push(postObj);
-    });
-    dispatch(setPostList(arr));
-  };
-
   // SAVE
   const onSubmit = async (e) => {
     e.preventDefault();

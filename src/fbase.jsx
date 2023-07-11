@@ -41,6 +41,9 @@ export const POST_DOC = (id) => {
 };
 export const USER_DOC = (uid) => doc(db, USER_COLLECTION_NAME, uid);
 
+/**
+ * 유저 정보 DB 저장
+ */
 export const SET_USER_DOC = async (user) => {
   const { uid, displayName, photoURL, email } = user;
   try {
