@@ -1,6 +1,6 @@
 import { POST_DOC, storage } from 'fbase';
 import { updateDoc } from 'firebase/firestore';
-import { dateUtil } from 'util/util';
+import { dateUtil } from 'utils/util';
 import PostPhotoForm from './PostPhotoForm';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';

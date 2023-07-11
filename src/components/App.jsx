@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostList } from 'slice/post';
 import { setLogin, setLogout, setMyPostList } from 'slice/user';
-import { isEmpty } from 'util/util';
+import { isEmpty } from 'utils/util';
 
 function App() {
   const [init, setInit] = useState(false);

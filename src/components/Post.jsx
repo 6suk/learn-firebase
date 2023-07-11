@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { keyframes, styled } from 'styled-components';
-import { dateUtil, isEmpty } from 'util/util';
+import { dateUtil, isEmpty } from 'utils/util';
 import PostEdit from './PostEditForm';
 import CreatePost from './PostForm';
 
