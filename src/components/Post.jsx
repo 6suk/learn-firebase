@@ -4,8 +4,9 @@ import { POST_DOC, storage } from 'fbase';
 import { deleteDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { setPostFormToggle } from 'slice/postToggle';
 import { keyframes, styled } from 'styled-components';
 import { dateUtil, isEmpty } from 'utils/util';
 import PostEdit from './PostEditForm';
@@ -18,10 +19,10 @@ const Post = () => {
   const {
     postList: { data: postList },
     user: { user, myPostList, isLogin },
+    postToggle: { postFormToggle },
   } = useSelector((state) => state);
   const { type } = useParams();
   const [data, setData] = useState([]);
-  const [togglePostForm, setTogglePostForm] = useState(true);
 
   useEffect(() => {
     switch (type) {
@@ -34,25 +35,16 @@ const Post = () => {
     }
   }, [type, postList, myPostList]);
 
-  const postItmeProps = {
-    togglePostForm,
-    setTogglePostForm,
-  };
-
   return (
     <>
-      {togglePostForm && <CreatePost />}
+      {postFormToggle && <CreatePost />}
       <PostAnimation>
         {data.length === 0 && <div className="nweet__nopost">등록된 게시물이 없어요!</div>}
         <ul style={{ marginTop: 30 }}>
-          {data.map((post) => (
-            <PostItem
-              key={post.id}
-              post={post}
-              isOwner={isLogin && user.uid === post.uid}
-              postItmeProps={postItmeProps}
-            />
-          ))}
+          {data.map((post) => {
+            const isOwner = isLogin && user.uid === post.uid;
+            return <PostItem key={post.id} post={post} isOwner={isOwner} />;
+          })}
         </ul>
       </PostAnimation>
     </>
@@ -64,9 +56,14 @@ const Post = () => {
  * @param {*} post
  * @param {*} isOwner
  */
-const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePostForm } }) => {
-  const [editPost, setEditPost] = useState(post.post);
+const PostItem = ({ post, isOwner }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useDispatch();
+
+  const toggleEdit = () => {
+    setIsEdit(!isEdit);
+    dispatch(setPostFormToggle());
+  };
 
   // STORAGE DELETE
   const delImgInStorage = async () => {
@@ -74,11 +71,6 @@ const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePos
       const curImgRef = ref(storage, post.imageUrl);
       await deleteObject(curImgRef);
     }
-  };
-
-  const toggleEdit = (e) => {
-    setIsEdit(!isEdit);
-    setTogglePostForm(!togglePostForm);
   };
 
   // DB DELETE
@@ -96,12 +88,8 @@ const PostItem = ({ post, isOwner, postItmeProps: { togglePostForm, setTogglePos
 
   const editProps = {
     post,
-    editPost,
-    toggleEdit,
-    setTogglePostForm,
-    setEditPost,
-    setIsEdit,
     delImgInStorage,
+    toggleEdit,
   };
 
   return (

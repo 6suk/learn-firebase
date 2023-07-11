@@ -1,15 +1,15 @@
 import { POST_DOC, storage } from 'fbase';
 import { updateDoc } from 'firebase/firestore';
-import { dateUtil } from 'utils/util';
-import PostPhotoForm from './PostPhotoForm';
-import { useState } from 'react';
-import { v4 as uuid } from 'uuid';
-import { useSelector } from 'react-redux';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import useInput from 'hooks/useInput';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { dateUtil } from 'utils/util';
+import { v4 as uuid } from 'uuid';
+import PostPhotoForm from './PostPhotoForm';
 
 const PostEdit = ({ editProps }) => {
-  const { post, editPost, toggleEdit, setTogglePostForm, setEditPost, setIsEdit, delImgInStorage } = editProps;
+  const { post, delImgInStorage, toggleEdit } = editProps;
   const [image, setImage] = useState(post.imageUrl);
   const { user } = useSelector((state) => state.user);
 
@@ -37,13 +37,11 @@ const PostEdit = ({ editProps }) => {
         imageUrl: imageUrl,
       });
 
-      setIsEdit(false);
-      setTogglePostForm(true);
+      toggleEdit();
     } catch (error) {
       console.log(error);
     }
   };
-
   const [inputValue, onChange, onSubmit] = useInput(post.post, onEditSubmit);
 
   return (
