@@ -22,7 +22,6 @@ const useInitUser = () => {
   };
 
   useEffect(() => {
-    console.log('use Effect 실행');
     onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(setLogin(userInfo(user)));
@@ -42,7 +41,7 @@ const useInitUser = () => {
     console.log(userObj);
     SET_USER_DOC(userObj);
     dispatch(setLogin(userObj));
-    // initPostList(userObj);
+    initPostList(userObj);
   };
 
   return { init, refreshUser };
