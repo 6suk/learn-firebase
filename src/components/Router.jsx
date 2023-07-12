@@ -7,10 +7,9 @@ import Home from 'routes/Home';
 import Profile from 'routes/Profile';
 import { styled } from 'styled-components';
 import Post from './Post/Post';
-import HomeTab from './Hometab';
 
-const AppRouter = ({ refreshUser }) => {
-  const { user, isLogin } = useSelector((state) => state.user);
+const AppRouter = () => {
+  const isLogin = useSelector((state) => state.user.isLogin);
 
   return (
     <>
@@ -20,7 +19,7 @@ const AppRouter = ({ refreshUser }) => {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="/post/:type" element={<Post />} />
-              <Route path="/profile" element={<Profile refreshUser={refreshUser} />} />
+              <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/login" element={<Auth isLogin={isLogin} />} />
             <Route path="*" element={<Home />} />

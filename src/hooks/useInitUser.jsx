@@ -1,25 +1,23 @@
-import { SET_USER_DOC, auth } from 'fbase';
+import { auth } from 'fbase';
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLogin, setLogout } from 'slice/user';
-import { useInitPost } from './useInitPost';
+
+const userInfo = (user) => {
+  const userObj = {
+    uid: user.uid,
+    displayName: user.displayName || '',
+    photoURL: user.photoURL,
+    email: user.email,
+    updateProfile: (args) => updateProfile(user, args),
+  };
+  return userObj;
+};
 
 const useInitUser = () => {
+  const [userLoading, setUserLoading] = useState(false);
   const dispatch = useDispatch();
-  const { initPostList, postLoading } = useInitPost();
-  const [init, setInit] = useState(false);
-
-  const userInfo = (user) => {
-    const userObj = {
-      uid: user.uid,
-      displayName: user.displayName || '',
-      photoURL: user.photoURL,
-      email: user.email,
-      updateProfile: (args) => updateProfile(user, args),
-    };
-    return userObj;
-  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -28,23 +26,11 @@ const useInitUser = () => {
       } else {
         dispatch(setLogout());
       }
-      initPostList(user);
+      setUserLoading(true);
     });
   }, []);
 
-  useEffect(() => {
-    if (!postLoading) setInit(true);
-  }, [postLoading]);
-
-  const refreshUser = () => {
-    const userObj = userInfo(auth.currentUser);
-    console.log(userObj);
-    SET_USER_DOC(userObj);
-    dispatch(setLogin(userObj));
-    initPostList(userObj);
-  };
-
-  return { init, refreshUser };
+  return [userLoading];
 };
 
 export default useInitUser;
