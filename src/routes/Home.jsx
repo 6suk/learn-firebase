@@ -1,5 +1,5 @@
 import HomeTab from 'components/Hometab';
-import Post from 'components/Post';
+import Post from 'components/Post/Post';
 import { Outlet, useLocation } from 'react-router-dom';
 
 const Home = () => {

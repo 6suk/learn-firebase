@@ -6,7 +6,7 @@ import Auth from 'routes/Auth';
 import Home from 'routes/Home';
 import Profile from 'routes/Profile';
 import { styled } from 'styled-components';
-import Post from './Post';
+import Post from './Post/Post';
 import HomeTab from './Hometab';
 
 const AppRouter = ({ refreshUser }) => {

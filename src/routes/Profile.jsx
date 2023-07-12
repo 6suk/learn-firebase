@@ -1,4 +1,4 @@
-import ProfileForm from 'components/ProfileForm';
+import ProfileForm from 'components/Profile/ProfileForm';
 import { auth } from 'fbase';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';

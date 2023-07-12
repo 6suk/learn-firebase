@@ -1,5 +1,5 @@
-import AuthForm from 'components/AuthForm';
-import AuthSocial from 'components/AuthSocial';
+import AuthForm from 'components/Auth/AuthForm';
+import AuthSocial from 'components/Auth/AuthSocial';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
