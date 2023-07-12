@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { keyframes, styled } from 'styled-components';
-import CreatePost from './PostForm';
+import PostForm from './PostForm';
 import PostItem from './PostItem';
 
 /**
@@ -30,15 +30,15 @@ const Post = () => {
 
   return (
     <>
-      {postFormToggle && <CreatePost />}
+      {postFormToggle && <PostForm />}
       <PostAnimation>
         {data.length === 0 && <div className="nweet__nopost">등록된 게시물이 없어요!</div>}
-        <ul style={{ marginTop: 30 }}>
+        <PostWrap>
           {data.map((post) => {
             const isOwner = isLogin && user.uid === post.uid;
-            return <PostItem key={post.id} post={post} isOwner={isOwner} />;
+            return <PostItem post={post} isOwner={isOwner} key={post.id} />;
           })}
-        </ul>
+        </PostWrap>
       </PostAnimation>
     </>
   );
@@ -58,6 +58,10 @@ const Animation = keyframes`
 
 const PostAnimation = styled.div`
   animation: ${Animation} 0.5s ease-in-out forwards;
+`;
+
+const PostWrap = styled.ul`
+  margin-top: 30px;
 `;
 
 export default Post;
