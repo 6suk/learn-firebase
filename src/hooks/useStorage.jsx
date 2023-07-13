@@ -8,10 +8,7 @@ import { v4 as uuid } from 'uuid';
  * @returns
  */
 export const useStorage = () => {
-  // console.log('useStorage 실행');
-
   const setStorage = async (uid, image) => {
-    // console.log('setStorage: 실행');
     let imageUrl = '';
     if (image !== '') {
       const fileRef = ref(storage, `${uid}/${uuid()}`);
@@ -21,18 +18,7 @@ export const useStorage = () => {
     return imageUrl;
   };
 
-  const updateStorage = async (image, imageUrl) => {
-    // console.log('updateStorage: 실행');
-    if (image !== imageUrl) {
-      await deleteStroage(imageUrl);
-      return await setStorage(image);
-    } else {
-      return imageUrl;
-    }
-  };
-
   const deleteStroage = async (imageUrl) => {
-    // console.log('deleteStroage: 실행');
     if (!isEmpty(imageUrl)) {
       try {
         const curImgRef = ref(storage, imageUrl);
@@ -40,6 +26,16 @@ export const useStorage = () => {
       } catch (error) {
         console.log(error);
       }
+    }
+  };
+
+  const updateStorage = async (uid, image, imageUrl) => {
+    if (image !== imageUrl) {
+      await deleteStroage(imageUrl);
+      const newImageUrl = await setStorage(uid, image);
+      return newImageUrl;
+    } else {
+      return imageUrl;
     }
   };
 

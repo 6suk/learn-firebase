@@ -16,8 +16,11 @@ const PostItem = ({ post, isOwner, deleteAction: { deleteDataBase, deleteStroage
   };
 
   const onDelSubmit = async () => {
-    await deleteStroage();
-    await deleteDataBase(post.id);
+    const check = window.confirm('정말 삭제하실건가요?');
+    if (check) {
+      await deleteStroage(post.imageUrl);
+      await deleteDataBase(post.id);
+    }
   };
 
   return (

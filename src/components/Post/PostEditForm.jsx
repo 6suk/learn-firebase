@@ -2,16 +2,18 @@ import useInput from 'hooks/useInput';
 import { useState } from 'react';
 import { dateUtil } from 'utils/util';
 import PostPhotoForm from './PostPhotoForm';
+import { useSelector } from 'react-redux';
 
 const PostEdit = ({
   post: { imageUrl, id, post, date },
   toggleEdit,
   updateAction: { updateStorage, updateDataBase },
 }) => {
-  const [image, setImage] = useState(imageUrl);
+  const { uid } = useSelector((state) => state.user.user);
+  const [image, setImage] = useState(imageUrl || '');
 
   const submitAction = async (inputValue) => {
-    const newImageUrl = await updateStorage(image, imageUrl);
+    const newImageUrl = await updateStorage(uid, image, imageUrl);
     await updateDataBase(id, inputValue, newImageUrl);
     toggleEdit();
   };

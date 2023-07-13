@@ -1,6 +1,4 @@
-import { useDataBase } from 'hooks/useDataBase';
 import useInput from 'hooks/useInput';
-import { useStorage } from 'hooks/useStorage';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PostPhotoForm from './PostPhotoForm';
