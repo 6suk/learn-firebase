@@ -3,28 +3,36 @@ import { deleteObject, getDownloadURL, ref, uploadString } from 'firebase/storag
 import { isEmpty } from 'utils/util';
 import { v4 as uuid } from 'uuid';
 
-export const useStorage = (uid, image, imageUrl = '') => {
-  const setStorage = async () => {
+/**
+ *
+ * @returns
+ */
+export const useStorage = () => {
+  // console.log('useStorage 실행');
+
+  const setStorage = async (uid, image) => {
+    // console.log('setStorage: 실행');
+    let imageUrl = '';
     if (image !== '') {
       const fileRef = ref(storage, `${uid}/${uuid()}`);
       const uploadResult = await uploadString(fileRef, image, 'data_url');
       imageUrl = await getDownloadURL(uploadResult.ref);
-    } else {
-      imageUrl = '';
     }
     return imageUrl;
   };
 
-  const updateStorage = async () => {
+  const updateStorage = async (image, imageUrl) => {
+    // console.log('updateStorage: 실행');
     if (image !== imageUrl) {
-      await deleteStroage();
-      return await setStorage();
+      await deleteStroage(imageUrl);
+      return await setStorage(image);
     } else {
       return imageUrl;
     }
   };
 
-  const deleteStroage = async () => {
+  const deleteStroage = async (imageUrl) => {
+    // console.log('deleteStroage: 실행');
     if (!isEmpty(imageUrl)) {
       try {
         const curImgRef = ref(storage, imageUrl);

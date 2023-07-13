@@ -1,20 +1,22 @@
-import { useDataBase } from 'hooks/useDataBase';
 import useInput from 'hooks/useInput';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { dateUtil } from 'utils/util';
 import PostPhotoForm from './PostPhotoForm';
 
-const PostEdit = ({ post: { imageUrl, id, post, date }, toggleEdit }) => {
+const PostEdit = ({
+  post: { imageUrl, id, post, date },
+  toggleEdit,
+  updateAction: { updateStorage, updateDataBase },
+}) => {
   const [image, setImage] = useState(imageUrl);
-  const user = useSelector((state) => state.user.user);
-  const { isDone, updateDataBase } = useDataBase({ uid: user ? user.uid : '', image, imageUrl, pid: id });
-  const [inputValue, onChange, onSubmit] = useInput(post, updateDataBase);
 
-  useEffect(() => {
-    setImage(imageUrl);
-    if (isDone) toggleEdit();
-  }, [isDone]);
+  const submitAction = async (inputValue) => {
+    const newImageUrl = await updateStorage(image, imageUrl);
+    await updateDataBase(id, inputValue, newImageUrl);
+    toggleEdit();
+  };
+
+  const [inputValue, onChange, onSubmit] = useInput(post, submitAction);
 
   return (
     <form onSubmit={onSubmit} className="container nweetEdit">

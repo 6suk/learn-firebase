@@ -1,61 +1,35 @@
 import { POST_COLLECTION, POST_DOC } from 'fbase';
 import { addDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { useStorage } from './useStorage';
 
-export const useDataBase = ({ uid, pid, image, imageUrl }) => {
-  const { setStorage, updateStorage, deleteStroage } = useStorage(uid, image, imageUrl);
+export const useDataBase = () => {
+  // console.log('useDataBase 실행');
   const [isDone, setIsDone] = useState(false);
 
-  /**
-   * 게시물 등록
-   *
-   * @async
-   * @param {String} inputValue Submit시 useInput에서 전달
-   * @param {*} uid
-   * @param {*} image
-   */
-  const setDataBase = async (inputValue) => {
+  const setDataBase = async (uid, inputValue, imageUrl) => {
+    // console.log('setDataBase 실행');
     await addDoc(POST_COLLECTION, {
       date: Date.now(),
       post: inputValue,
-      uid: uid,
-      imageUrl: await setStorage(),
+      uid,
+      imageUrl,
     });
     setIsDone(true);
   };
 
-  /**
-   * 게시물 수정
-   *
-   * @async
-   * @param {String} inputValue Submit시 useInput에서 전달
-   * @param {*} pid
-   * @param {*} image
-   * @param {*} imageUrl useStorage의 리턴값으로 전달
-   */
-  const updateDataBase = async (inputValue) => {
+  const updateDataBase = async (pid, inputValue, imageUrl) => {
+    // console.log('updateDataBase 실행');
     await updateDoc(POST_DOC(pid), {
       post: inputValue,
-      imageUrl: await updateStorage(),
+      imageUrl,
     });
     setIsDone(true);
   };
 
-  /**
-   * 게시물 삭제
-   *
-   * @async
-   * @param {String} message 컨펌 메세지
-   * @param {*} pid
-   * @param {*} imageUrl
-   */
-  const deleteDataBase = async (message) => {
-    const check = window.confirm(message);
-    if (check) {
-      await deleteStroage();
-      await deleteDoc(POST_DOC(pid));
-    }
+  const deleteDataBase = async (pid) => {
+    // console.log('deleteDataBase 실행');
+    await deleteDoc(POST_DOC(pid));
+    setIsDone(true);
   };
 
   return { isDone, setDataBase, updateDataBase, deleteDataBase };

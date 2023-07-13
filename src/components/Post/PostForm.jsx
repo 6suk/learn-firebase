@@ -1,18 +1,20 @@
 import { useDataBase } from 'hooks/useDataBase';
 import useInput from 'hooks/useInput';
-import { useEffect, useState } from 'react';
+import { useStorage } from 'hooks/useStorage';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PostPhotoForm from './PostPhotoForm';
 
-const PostForm = () => {
-  const user = useSelector((state) => state.user.user);
+const PostForm = ({ setAction: { setDataBase, setStorage } }) => {
   const [image, setImage] = useState('');
-  const { isDone, setDataBase } = useDataBase({ uid: user ? user.uid : '', image });
-  const [inputValue, onChange, onSubmit] = useInput('', setDataBase, true);
+  const { user } = useSelector((state) => state.user);
 
-  useEffect(() => {
+  const submitAction = async (inputValue) => {
+    const imageUrl = await setStorage(user.uid, image);
+    await setDataBase(user.uid, inputValue, imageUrl);
     setImage('');
-  }, [isDone]);
+  };
+  const [inputValue, onChange, onSubmit] = useInput('', submitAction, true);
 
   return (
     <form action="" onSubmit={onSubmit} className="factoryForm">
