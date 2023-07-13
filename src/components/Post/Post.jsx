@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useDataBase } from 'hooks/useDataBase';
+import { useStorage } from 'hooks/useStorage';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { keyframes, styled } from 'styled-components';
+import { isEmpty } from 'utils/util';
 import PostForm from './PostForm';
 import PostItem from './PostItem';
 
@@ -9,36 +12,49 @@ import PostItem from './PostItem';
  * 전체 포스트 리스트
  */
 const Post = () => {
-  const {
-    postList: { data: postList },
-    user: { user, myPostList, isLogin },
-    postToggle: { postFormToggle },
-  } = useSelector((state) => state);
   const { type } = useParams();
-  const [data, setData] = useState([]);
+  const { postFormToggle } = useSelector((state) => state.postToggle);
+  const { myPostList, user, isLogin } = useSelector((state) => state.user);
+  const postList = useSelector((state) => state.postList.data);
+  const { setDataBase, updateDataBase, deleteDataBase } = useDataBase();
+  const { setStorage, updateStorage, deleteStroage } = useStorage();
+  const setAction = { setDataBase, setStorage };
+  const updateAction = { updateDataBase, updateStorage };
+  const deleteAction = { deleteDataBase, deleteStroage };
 
-  useEffect(() => {
+  const data = useMemo(() => {
     switch (type) {
       case 'user':
-        setData(myPostList);
-        break;
+        return myPostList;
       default:
-        setData(postList);
-        break;
+        return postList;
     }
-  }, [type, postList, myPostList]);
+  }, [type, myPostList, postList]);
 
   return (
     <>
-      {postFormToggle && <PostForm />}
+      {postFormToggle && <PostForm setAction={setAction} />}
       <PostAnimation>
-        {data.length === 0 && <div className="nweet__nopost">등록된 게시물이 없어요!</div>}
-        <PostWrap>
-          {data.map((post) => {
-            const isOwner = isLogin && user.uid === post.uid;
-            return <PostItem post={post} isOwner={isOwner} key={post.id} />;
-          })}
-        </PostWrap>
+        <>
+          {isEmpty(data) ? (
+            <div className="nweet__nopost">등록된 게시물이 없어요!</div>
+          ) : (
+            <PostWrap>
+              {data.map((post) => {
+                const isOwner = isLogin && user.uid === post.uid;
+                return (
+                  <PostItem
+                    post={post}
+                    isOwner={isOwner}
+                    updateAction={updateAction}
+                    deleteAction={deleteAction}
+                    key={post.id}
+                  />
+                );
+              })}
+            </PostWrap>
+          )}
+        </>
       </PostAnimation>
     </>
   );
