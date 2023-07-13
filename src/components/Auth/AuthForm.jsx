@@ -1,4 +1,4 @@
-import { auth, SET_USER_DOC } from 'fbase';
+import { auth, set_user_doc } from 'fbase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 
@@ -31,7 +31,7 @@ const AuthForm = () => {
       if (newAccount) {
         // 회원가입
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        SET_USER_DOC(user);
+        set_user_doc(user);
       } else {
         // 로그인
         await signInWithEmailAndPassword(auth, email, password);
@@ -47,10 +47,10 @@ const AuthForm = () => {
     <>
       <nav>
         <ul className="hometab auth">
-          <li onClick={() => toggleAccount(false)} className={!newAccount && 'on'}>
+          <li onClick={() => toggleAccount(false)} className={!newAccount ? 'on' : ''}>
             LOGIN
           </li>
-          <li onClick={() => toggleAccount(true)} className={newAccount && 'on'}>
+          <li onClick={() => toggleAccount(true)} className={newAccount ? 'on' : ''}>
             JOIN
           </li>
         </ul>

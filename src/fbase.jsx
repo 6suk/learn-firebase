@@ -28,23 +28,15 @@ export const storage = getStorage(app);
 // DataBase : Post
 const COLLECTION_NAME = 'nweets';
 const USER_COLLECTION_NAME = 'users';
-/**
- * @returns — The CollectionReference instance.
- */
+
 export const POST_COLLECTION = collection(db, COLLECTION_NAME);
-/**
- * @param post_id
- * @returns — The DocumentReference instance.
- */
+
 export const POST_DOC = (id) => {
   return doc(db, COLLECTION_NAME, id);
 };
 export const USER_DOC = (uid) => doc(db, USER_COLLECTION_NAME, uid);
 
-/**
- * 유저 정보 DB 저장
- */
-export const SET_USER_DOC = async (user) => {
+export const set_user_doc = async (user) => {
   const { uid, displayName, photoURL, email } = user;
   try {
     await setDoc(USER_DOC(uid), {
@@ -56,8 +48,7 @@ export const SET_USER_DOC = async (user) => {
     console.log(error);
   }
 };
-
-export const GET_USER_BY_UID = async (uid) => {
+export const get_user_by_uid = async (uid) => {
   const getUserByUid = await getDoc(USER_DOC(uid));
   // null : undefined
   return getUserByUid.data();
