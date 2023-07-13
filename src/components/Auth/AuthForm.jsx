@@ -57,6 +57,7 @@ const AuthForm = () => {
       </nav>
       <form action="" onSubmit={onSubmit} className="container">
         <input type="email" placeholder="email" name="email" required onChange={onChange} className="authInput" />
+        {/* [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) 오류로 autoComplete off 추가 */}
         <input
           type="password"
           placeholder="password"
@@ -64,6 +65,7 @@ const AuthForm = () => {
           required
           onChange={onChange}
           className="authInput"
+          autoComplete="off"
         />
         <input type="submit" value={newAccount ? 'JOIN' : 'LOGIN'} className="authInput authSubmit" />
       </form>
