@@ -1,29 +1,31 @@
 import Nav from 'components/Nav';
 import { AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Auth from 'routes/Auth';
-import Home from 'routes/Home';
 import Profile from 'routes/Profile';
 import { styled } from 'styled-components';
-import Post from './Post/Post';
 
 const AppRouter = () => {
-  const isLogin = useSelector((state) => state.user.isLogin);
+  const Home = lazy(() => import('routes/Home'));
+  const Post = lazy(() => import('./Post/Post'));
+  const Auth = lazy(() => import('routes/Auth'));
 
   return (
     <>
       <Container>
         <Nav />
         <AnimatePresence>
-          <Routes>
-            <Route path="/" element={<Home />}>
-              <Route path="/post/:type" element={<Post />} />
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route path="/login" element={<Auth isLogin={isLogin} />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
+          <Suspense fallback={<div className="loading">loading...</div>}>
+            <Routes>
+              <Route path="/" element={<Home />}>
+                <Route index element={<Post />} />
+                <Route path="/post/:type" element={<Post />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route path="/login" element={<Auth />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </Suspense>
         </AnimatePresence>
       </Container>
     </>
