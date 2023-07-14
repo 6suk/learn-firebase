@@ -1,21 +1,19 @@
 {
   "files": {
     "main.css": "/learn-firebase/static/css/main.b71482a9.css",
-    "main.js": "/learn-firebase/static/js/main.9284de16.js",
-    "static/js/616.2f350050.chunk.js": "/learn-firebase/static/js/616.2f350050.chunk.js",
-    "static/js/14.eb6ae330.chunk.js": "/learn-firebase/static/js/14.eb6ae330.chunk.js",
-    "static/js/194.2404a5fe.chunk.js": "/learn-firebase/static/js/194.2404a5fe.chunk.js",
-    "static/js/273.54732291.chunk.js": "/learn-firebase/static/js/273.54732291.chunk.js",
+    "main.js": "/learn-firebase/static/js/main.c81f55a5.js",
+    "static/js/692.2d4b9716.chunk.js": "/learn-firebase/static/js/692.2d4b9716.chunk.js",
+    "static/js/663.7121f171.chunk.js": "/learn-firebase/static/js/663.7121f171.chunk.js",
+    "static/js/194.897c609c.chunk.js": "/learn-firebase/static/js/194.897c609c.chunk.js",
     "index.html": "/learn-firebase/index.html",
     "main.b71482a9.css.map": "/learn-firebase/static/css/main.b71482a9.css.map",
-    "main.9284de16.js.map": "/learn-firebase/static/js/main.9284de16.js.map",
-    "616.2f350050.chunk.js.map": "/learn-firebase/static/js/616.2f350050.chunk.js.map",
-    "14.eb6ae330.chunk.js.map": "/learn-firebase/static/js/14.eb6ae330.chunk.js.map",
-    "194.2404a5fe.chunk.js.map": "/learn-firebase/static/js/194.2404a5fe.chunk.js.map",
-    "273.54732291.chunk.js.map": "/learn-firebase/static/js/273.54732291.chunk.js.map"
+    "main.c81f55a5.js.map": "/learn-firebase/static/js/main.c81f55a5.js.map",
+    "692.2d4b9716.chunk.js.map": "/learn-firebase/static/js/692.2d4b9716.chunk.js.map",
+    "663.7121f171.chunk.js.map": "/learn-firebase/static/js/663.7121f171.chunk.js.map",
+    "194.897c609c.chunk.js.map": "/learn-firebase/static/js/194.897c609c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b71482a9.css",
-    "static/js/main.9284de16.js"
+    "static/js/main.c81f55a5.js"
   ]
 }
