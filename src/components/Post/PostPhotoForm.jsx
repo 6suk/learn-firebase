@@ -2,27 +2,35 @@ import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isEmpty } from 'utils/util';
 import { useSelector } from 'react-redux';
+import imageCompression from 'browser-image-compression';
+
+const imageCompressedOption = {
+  maxSizeMB: 0.5,
+  maxWidthOrHeight: 150,
+  useWebWorker: true,
+};
 
 const PostPhotoForm = ({ image, setImage }) => {
   const { isLogin } = useSelector((state) => state.user);
 
-  const onFileChange = (e) => {
+  // 이미지 최적화
+  const handleImageCompress = async (image) => {
+    const compressedBlob = await imageCompression(image, imageCompressedOption);
+    const compressedDataURL = await imageCompression.getDataUrlFromFile(compressedBlob);
+    return compressedDataURL;
+  };
+
+  const onFileChange = async (e) => {
     const { files } = e.target;
     const file = files[0];
 
     if (!isEmpty(file)) {
-      const reader = new FileReader();
-
-      reader.addEventListener('loadend', (e) => {
-        // FileReader.result로도 받을 수 있음
-        setImage(reader.result);
-      });
-
-      reader.readAsDataURL(file);
+      setImage(await handleImageCompress(file));
     }
   };
 
   const onClearImgClick = () => setImage('');
+
   return (
     <>
       <input
