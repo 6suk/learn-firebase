@@ -2,10 +2,6 @@ import { storage } from 'fbase';
 import { deleteObject, getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { v4 as uuid } from 'uuid';
 
-/**
- *
- * @returns
- */
 export const useStorage = () => {
   const setStorage = async (uid, image) => {
     let imageUrl = '';
@@ -29,7 +25,7 @@ export const useStorage = () => {
   };
 
   const updateStorage = async (uid, image, imageUrl) => {
-    if (image && imageUrl && image !== imageUrl) {
+    if (image !== imageUrl) {
       await deleteStorage(imageUrl);
       const newImageUrl = await setStorage(uid, image);
       return newImageUrl;
@@ -37,6 +33,5 @@ export const useStorage = () => {
       return imageUrl;
     }
   };
-
   return { setStorage, updateStorage, deleteStorage };
 };
