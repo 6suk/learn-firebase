@@ -1,10 +1,16 @@
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { set_user_doc, auth } from 'fbase';
-import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  browserSessionPersistence,
+  setPersistence,
+  signInWithPopup,
+} from 'firebase/auth';
 
 const AuthSocial = () => {
-  const onSocialClick = async (e) => {
+  const onSocialClick = (e) => {
     const { name } = e.target;
     let provide;
     switch (name) {
@@ -17,8 +23,16 @@ const AuthSocial = () => {
       default:
         break;
     }
-    const { user } = await signInWithPopup(auth, provide);
-    set_user_doc(user);
+    setPersistence(auth, browserSessionPersistence).then(() => {
+      signInWithPopup(auth, provide).then(({ user }) => {
+        const {
+          reloadUserInfo: { createdAt, lastLoginAt },
+        } = user;
+        if (createdAt === lastLoginAt) {
+          set_user_doc(user);
+        }
+      });
+    });
   };
 
   return (

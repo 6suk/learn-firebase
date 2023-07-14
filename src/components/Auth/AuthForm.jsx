@@ -1,5 +1,10 @@
 import { auth, set_user_doc } from 'fbase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  browserSessionPersistence,
+  createUserWithEmailAndPassword,
+  setPersistence,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { useState } from 'react';
 
 const AuthForm = () => {
@@ -25,16 +30,21 @@ const AuthForm = () => {
     }
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     try {
       if (newAccount) {
         // 회원가입
-        const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        set_user_doc(user);
+        setPersistence(auth, browserSessionPersistence).then(() => {
+          createUserWithEmailAndPassword(auth, email, password).then((res) => {
+            set_user_doc(res.user);
+          });
+        });
       } else {
         // 로그인
-        await signInWithEmailAndPassword(auth, email, password);
+        setPersistence(auth, browserSessionPersistence).then(() => {
+          signInWithEmailAndPassword(auth, email, password);
+        });
       }
     } catch (error) {
       setError(error.message);
