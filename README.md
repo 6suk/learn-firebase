@@ -1,6 +1,6 @@
 # 🔥 React & Firebase
 
-- [🔗 배포 사이트](https://6suk.github.io/learn_firebase/)
+- [🔗 배포 사이트](https://6suk.github.io/learn-firebase/)
   - 테스트 아이디 `test@test.com` / 비밀번호 `123456`
 - [✨ 이슈보기](https://github.com/6suk/learn_firebase/issues?q=is%3Aissue+is%3Aall)
 
