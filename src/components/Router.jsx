@@ -4,10 +4,12 @@ import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Profile from 'routes/Profile';
 import { styled } from 'styled-components';
+import PostList from './Post/PostList';
+import UserPostList from './Post/UserPostList';
 
 const AppRouter = () => {
-  const Home = lazy(() => import('routes/Home'));
-  const Post = lazy(() => import('./Post/Post'));
+  const Layout = lazy(() => import('routes/Layout'));
+  const Post = lazy(() => import('components/Post/Post'));
   const Auth = lazy(() => import('routes/Auth'));
 
   return (
@@ -17,13 +19,13 @@ const AppRouter = () => {
         <AnimatePresence>
           <Suspense fallback={<div className="loading">loading...</div>}>
             <Routes>
-              <Route path="/" element={<Home />}>
+              <Route path="/" element={<Layout />}>
                 <Route index element={<Post />} />
                 <Route path="/post/:type" element={<Post />} />
                 <Route path="/profile" element={<Profile />} />
               </Route>
               <Route path="/login" element={<Auth />} />
-              <Route path="*" element={<Home />} />
+              <Route path="*" element={<Layout />} />
             </Routes>
           </Suspense>
         </AnimatePresence>

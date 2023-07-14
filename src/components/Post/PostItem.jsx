@@ -1,14 +1,15 @@
 import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PostEdit from 'components/Post/PostEditForm';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPostFormToggle } from 'slice/postToggle';
 import { dateUtil } from 'utils/util';
-import PostEdit from './PostEditForm';
 
-const PostItem = ({ post, isOwner, deleteAction: { deletePost, deleteStorage }, updateAction }) => {
+const PostItem = ({ post, isOwner, action }) => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
+  const { deletePost, deleteStorage } = action[1];
 
   const toggleEdit = () => {
     setIsEdit(!isEdit);
@@ -26,7 +27,7 @@ const PostItem = ({ post, isOwner, deleteAction: { deletePost, deleteStorage }, 
   return (
     <li className={'nweet'}>
       {isEdit ? (
-        <PostEdit post={post} toggleEdit={toggleEdit} updateAction={updateAction} />
+        <PostEdit post={post} toggleEdit={toggleEdit} updateAction={action[0]} />
       ) : (
         <>
           {post.imageUrl && <img src={post.imageUrl} alt={post.id} style={{ maxWidth: '100px' }} />}
