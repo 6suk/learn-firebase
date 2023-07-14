@@ -31,7 +31,7 @@ const PostPhotoForm = ({ image, setImage }) => {
         accept="image/*"
         onChange={onFileChange}
         className="factoryInput__file"
-        disabled={isLogin ? false : true}
+        disabled={!isLogin}
       />
       {image ? (
         <div className="factoryForm__clear" onClick={onClearImgClick}>
@@ -39,22 +39,14 @@ const PostPhotoForm = ({ image, setImage }) => {
           <FontAwesomeIcon icon={faTimes} />
         </div>
       ) : (
-        <>
-          <label htmlFor="attach-file" className="factoryInput__label">
-            <span>Add photos</span>
-            <FontAwesomeIcon icon={faPlus} />
-          </label>
-        </>
+        <label htmlFor="attach-file" className="factoryInput__label">
+          <span>Add photos</span>
+          <FontAwesomeIcon icon={faPlus} />
+        </label>
       )}
       {image && (
         <div className="factoryForm__attachment">
-          <img
-            src={image}
-            style={{
-              backgroundImage: image,
-            }}
-            alt="미리보기"
-          />
+          <img src={image} alt="미리보기" />
         </div>
       )}
     </>

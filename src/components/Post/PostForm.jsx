@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PostPhotoForm from './PostPhotoForm';
 
-const PostForm = ({ setAction: { setDataBase, setStorage } }) => {
+const PostForm = ({ setAction: { addPost, setStorage } }) => {
   const [image, setImage] = useState('');
   const { user } = useSelector((state) => state.user);
 
   const submitAction = async (inputValue) => {
     const imageUrl = await setStorage(user.uid, image);
-    await setDataBase(user.uid, inputValue, imageUrl);
+    await addPost(user.uid, inputValue, imageUrl);
     setImage('');
   };
   const [inputValue, onChange, onSubmit] = useInput('', submitAction, true);

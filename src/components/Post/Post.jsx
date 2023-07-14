@@ -16,11 +16,11 @@ const Post = () => {
   const { postFormToggle } = useSelector((state) => state.postToggle);
   const { myPostList, user, isLogin } = useSelector((state) => state.user);
   const postList = useSelector((state) => state.postList.data);
-  const { setDataBase, updateDataBase, deleteDataBase } = useDataBase();
-  const { setStorage, updateStorage, deleteStroage } = useStorage();
-  const setAction = { setDataBase, setStorage };
-  const updateAction = { updateDataBase, updateStorage };
-  const deleteAction = { deleteDataBase, deleteStroage };
+  const { addPost, updatePost, deletePost } = useDataBase();
+  const { setStorage, updateStorage, deleteStorage } = useStorage();
+  const setAction = { addPost, setStorage };
+  const updateAction = { updatePost, updateStorage };
+  const deleteAction = { deletePost, deleteStorage };
 
   const data = useMemo(() => {
     switch (type) {

@@ -1,6 +1,5 @@
 import { storage } from 'fbase';
 import { deleteObject, getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { isEmpty } from 'utils/util';
 import { v4 as uuid } from 'uuid';
 
 /**
@@ -18,8 +17,8 @@ export const useStorage = () => {
     return imageUrl;
   };
 
-  const deleteStroage = async (imageUrl) => {
-    if (!isEmpty(imageUrl)) {
+  const deleteStorage = async (imageUrl) => {
+    if (imageUrl) {
       try {
         const curImgRef = ref(storage, imageUrl);
         await deleteObject(curImgRef);
@@ -30,8 +29,8 @@ export const useStorage = () => {
   };
 
   const updateStorage = async (uid, image, imageUrl) => {
-    if (image !== imageUrl) {
-      await deleteStroage(imageUrl);
+    if (image && imageUrl && image !== imageUrl) {
+      await deleteStorage(imageUrl);
       const newImageUrl = await setStorage(uid, image);
       return newImageUrl;
     } else {
@@ -39,5 +38,5 @@ export const useStorage = () => {
     }
   };
 
-  return { setStorage, updateStorage, deleteStroage };
+  return { setStorage, updateStorage, deleteStorage };
 };

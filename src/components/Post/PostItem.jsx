@@ -6,7 +6,7 @@ import { setPostFormToggle } from 'slice/postToggle';
 import { dateUtil } from 'utils/util';
 import PostEdit from './PostEditForm';
 
-const PostItem = ({ post, isOwner, deleteAction: { deleteDataBase, deleteStroage }, updateAction }) => {
+const PostItem = ({ post, isOwner, deleteAction: { deleteDataBase, deleteStorage }, updateAction }) => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
 
@@ -18,7 +18,7 @@ const PostItem = ({ post, isOwner, deleteAction: { deleteDataBase, deleteStroage
   const onDelSubmit = async () => {
     const check = window.confirm('정말 삭제하실건가요?');
     if (check) {
-      await deleteStroage(post.imageUrl);
+      await deleteStorage(post.imageUrl);
       await deleteDataBase(post.id);
     }
   };
